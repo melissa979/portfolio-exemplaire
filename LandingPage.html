@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Portfolio - Melissa</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            scroll-behavior: smooth;
+        }
+
+        /* Header / Hero */
+        header {
+            background-color: #4f46e5;
+            color: #fff;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        header img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+            object-fit: cover;
+            border: 3px solid #fff;
+        }
+
+        header h1 {
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            background-color: #fff;
+            color: #4f46e5;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #e0e7ff;
+        }
+
+        /* Section compétences */
+        .skills {
+            padding: 60px 20px;
+            background-color: #fff;
+            text-align: center;
+        }
+
+        .skills h2 {
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        .skills ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .skills ul li {
+            display: inline-block;
+            background-color: #4f46e5;
+            color: #fff;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+        }
+
+        /* Section portfolio */
+        .portfolio-section {
+            padding: 60px 20px;
+            background-color: #f9f9f9;
+            text-align: center;
+        }
+
+        .portfolio-section h2 {
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        .portfolio-section p {
+            margin-bottom: 20px;
+        }
+
+        /* Footer */
+        footer {
+            padding: 30px 20px;
+            background-color: #4f46e5;
+            color: #fff;
+            text-align: center;
+        }
+
+        /* Responsive */
+        @media(max-width: 600px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            .skills h2, .portfolio-section h2 {
+                font-size: 1.5rem;
+            }
+
+            header img {
+                width: 120px;
+                height: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header / Hero -->
+    <header>
+        <img src="image/1b182ae4-6253-4a9e-8aac-ec92d47c5198-cover.jpg" alt="Photo de Melissa">
+        <h1>Melissa</h1>
+        <p>Développeuse Web & Logiciel</p>
+        <a href="./finaly.html" class="btn">Voir mon portfolio</a>
+    </header>
+
+    <!-- Section compétences -->
+    <section class="skills" id="skills">
+        <h2>Mes Compétences</h2>
+        <ul>
+            <li>HTML</li>
+            <li>CSS</li>
+            <li>JavaScript</li>
+            <li>PHP</li>
+            <li>SQL</li>
+        </ul>
+    </section>
+
+    <!-- Section portfolio fictif -->
+    <section class="portfolio-section" id="portfolio">
+        <h2>Mes Projets Fictifs</h2>
+        <p>Exemple de mini projets réalisés pour montrer mes compétences.</p>
+        <a href="./finaly.html" class="btn">Accéder à mon portfolio complet</a>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        &copy; 2026 Melissa. Tous droits réservés.
+    </footer>
+
+</body>
+</html>
