@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio SALHI Melissa</title>
     <link rel="stylesheet" href="finaly.css">
+    <link rel="stylesheet" href="cors.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 
@@ -29,7 +30,7 @@
         <div class="home-content">
             <h1> Hi! I'm Melissa Salhi</h1>
             <h3>And I’m a BTS SIO SLAM Student</h3>
-            <div class="change-text">
+            <div class="tagline">
                 <p>
                     Passionate about <strong>web development</strong>, I design and build
                     modern, responsive, and interactive interfaces focused on user experience.
@@ -74,11 +75,7 @@
             </div>
         </div>
         <div class="home-img">
-            <div class="img-box">
-                <img src="image/pp.jpg" alt="Melissa">
-            </div>
-
-
+            <img src="image/pp.jpg" alt="Melissa">
         </div>
 
 
@@ -109,29 +106,26 @@
             <h2>About Me</h2>
             <h3>A story of good</h3>
             <p>
-                I am currently a <strong>BTS SIO SLAM student</strong> with a strong interest
-                in software development and web technologies. My training has allowed me
-                to build solid foundations in computer science and programming.
+                BTS SIO SLAM student passionate about software and web development. My training has given me strong
+                foundations in computer science and programming.
             </p>
             <p>
-                During my studies, I have worked with concepts such as <strong>algorithms</strong>,
-                <strong>object-oriented programming</strong>, <strong>databases</strong>,
-                and <strong>computer systems</strong>. I have also developed applications
-                using <strong>C++</strong> and database-driven solutions.
+                I have worked with <strong>algorithms</strong>, <strong>object-oriented programming</strong>,
+                <strong>databases</strong>, and computer systems, including <strong>C++</strong> applications and
+                database projects.
             </p>
             <p>
-                Today, I am focusing on <strong>web development</strong>, improving my skills
-                in <strong>HTML</strong>, <strong>CSS</strong>, and <strong>PHP</strong> through
-                academic and personal projects that emphasize structure, logic, and clean code.
+                Currently focusing on <strong>web development</strong>, I am improving my skills in
+                <strong>HTML</strong>, <strong>CSS</strong>, <strong>JavaScript</strong> and <strong>PHP</strong>
+                through clean and structured projects.
             </p>
-            <p>
-                Motivated, organized, and curious, I am looking for an <strong>internship</strong>
-                where I can apply my skills, learn from professionals, and gain real-world
-                experience in software and web development.
+            <p class="highlight">
+                Motivated, organized and eager to learn, I am looking for a <strong>web/software development
+                    internship</strong> to put my skills into practice and gain professional experience.
             </p>
 
             <div class="btn-box">
-                <a href="#" class="btn"> Read More!</a>
+                <a href="https://www.linkedin.com/in/melissa-salhi-9a3229397" class="btn">LinkedIn →</a>
             </div>
         </div>
     </section>
@@ -199,7 +193,7 @@
                         <p>90%</p>
                     </div>
                     <div class="bar">
-                        <span class="html"></span>
+                        <span class="HTML"></span>
                     </div>
                 </div>
 
@@ -344,45 +338,69 @@
             </div>
         </div>
     </section>
-    <!---------------------------------technology-watch section-->
-    <section id="Technology-Watch" class="tech-watch-section">
+ <!-- Technology-Watch section 
+  <div class="rss-banner" role="region" aria-label="Fil d'actualité">
+    <div id="rssViewport" class="rss-viewport" tabindex="0" aria-live="polite"></div>
+    <div class="rss-controls" aria-hidden="false">
+      <button id="refreshBtn" title="Rafraîchir">🔄</button>
+      <button id="pauseBtn" title="Mettre en pause">⏸</button>
+    </div>
+  </div>-->
 
-        <!-- TITRE HORS DU CADRE -->
-        <div class="tech-watch-header">
-            <span class="tech-watch-subtitle">WHAT I WILL DO FOR YOU</span>
-            <h2 class="tech-watch-title">Technology Watch</h2>
+<section id="Technology-Watch" class="tech-watch-section">
+
+ 
+
+  <!-- <main style="padding:20px;">
+    <h1>Contenu de la page</h1>
+    <p>Exemple: vous pouvez faire défiler un flux RSS dans la bannière en haut.</p>
+  </main> -->
+
+
+    <!-- TITLE OUTSIDE THE CARD -->
+    <div class="tech-watch-header">
+        <span class="tech-watch-subtitle">Active since December 2025 – Daily emails received</span>
+        <h2 class="tech-watch-title">Technology Watch</h2>
+    </div>
+
+    <!-- CARD (protected against shift) -->
+  <div class="tech-watch-card">
+
+    <!-- Ticker intégré (défile seulement dans la carte) -->
+    <div class="ticker-container">
+        <div class="ticker-track">
+            <span>Théorème de Pythagore : Que faut-il retenir ?</span>
+            <span>Dis-moi 10 mots pour la planète 2026</span>
+            <span>Minute magistère (21) : comment créer un quizz avec l'activité HSP ?</span>
+            <span>1769798987047224 (1)</span>
+            <span>HBMAG - EXPERIENCE 2 - OBSERVER LA POLLUTION DE L'AIR</span>
+            <span>ROUTINES_PIANO_1</span>
+            <span>COMM'UN webinaire : C'est quoi un commun ?</span>
+            <!-- Dupliquer pour avoir un défilement continu -->
+            <span>Théorème de Pythagore : Que faut-il retenir ?</span>
+            <span>Dis-moi 10 mots pour la planète 2026</span>
+            <span>Minute magistère (21) : comment créer un quizz avec l'activité HSP ?</span>
+            <span>1769798987047224 (1)</span>
+            <span>HBMAG - EXPERIENCE 2 - OBSERVER LA POLLUTION DE L'AIR</span>
+            <span>ROUTINES_PIANO_1</span>
+            <span>COMM'UN webinaire : C'est quoi un commun ?</span>
         </div>
+    </div>
 
-        <!-- CADRE AVEC CONTENU -->
-        <div class="tech-watch-card">
-            <p>
-                I actively conduct a technology watch in
-                <strong>cybersecurity</strong> using
-                <a href="https://www.google.com/alerts" target="_blank">Google Alerts</a>,
-                subscribed since December 2025.
-                This allows me to stay informed about cyber threats,
-                vulnerabilities, data breaches, and security best practices.
-            </p>
+    <!-- Le reste de ton contenu reste identique -->
+    <p>
+        I actively conduct a technology watch in <strong>web and application cybersecurity</strong> using 
+        <a href="https://www.google.com/alerts" target="_blank">Google Alerts</a> since December 2025.
+        ...
+    </p>
 
-            <p class="section-strong">Topics monitored through Google Alerts:</p>
-            <ul>
-                <li>Cybersecurity threats and attacks</li>
-                <li>Data breaches and vulnerabilities</li>
-                <li>Web application security</li>
-                <li>SQL injection and database security</li>
-                <li>Best practices in IT security</li>
-            </ul>
-
-            <p class="section-strong">Examples of recent topics followed:</p>
-            <ul>
-                <li>Major data breaches in 2025</li>
-                <li>SQL injection vulnerabilities in web applications</li>
-                <li>New cybersecurity regulations and standards</li>
-                <li>Best practices to secure databases and web applications</li>
-            </ul>
-        </div>
-
-    </section>
+<button type="button" class="btn" 
+        onclick="window.open('image/Screenshot 2026-01-30 144259.png', '_blank')">
+    View my recent email captures + personal notes (January 2026)
+</button>
+    <!-- ... -->
+</div>
+</section>
 
 
     <!---------------------------------contacte section-->
@@ -427,6 +445,7 @@
 
 
     <script src="finaly.js"></script>
+    <script src="cors.js"></script>
 </body>
 
 </html>
