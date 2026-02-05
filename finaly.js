@@ -133,14 +133,14 @@ function animateSkillBars() {
             
             // Récupère la classe de la barre (html, css, javascript, etc.)
             const barClass = progressBar.className.split(' ').find(cls => 
-                ['HTML', 'css', 'javascript', 'mysql', 'php', 'c'].includes(cls)
+                ['HTML', 'CSS', 'javascript', 'mysql', 'php', 'c'].includes(cls)
             );
             
             // Détermine la largeur finale selon la classe
             let finalWidth;
             switch(barClass) {
                 case 'HTML': finalWidth = '90%'; break;
-                case 'css': finalWidth = '80%'; break;
+                case 'CSS': finalWidth = '80%'; break;
                 case 'javascript': finalWidth = '80%'; break;
                 case 'mysql': finalWidth = '75%'; break;
                 case 'php': finalWidth = '85%'; break;

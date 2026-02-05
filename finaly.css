@@ -13,7 +13,7 @@
     --second-bg-color: #112e42; /* Couleur de fond secondaire (bleu foncé) */
     --text-color: #ededed; /* Couleur du texte (blanc cassé) */
     --main-color: #00ffff; /* Couleur principale (cyan) */
-    --accent-color: #ff00ff; /* Couleur d'accent (magenta) */
+    --accent-color: #acd3e1; /* Couleur d'accent (magenta) */
 }
 
 /* Défilement fluide lors du clic sur les liens d'ancrage */
@@ -786,6 +786,19 @@ header {
     white-space: nowrap; /* Empêche le retour à la ligne */
     color: var(--main-color); /* Couleur cyan */
     font-size: 14px; /* Taille standard */
+}
+/* Liens du ticker cliquables */
+.ticker-track a {
+    white-space: nowrap;
+    color: var(--main-color);
+    font-size: 14px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.ticker-track a:hover {
+    color: var(--accent-color);
+    text-shadow: 0 0 10px var(--accent-color);
 }
 
 /* Animation de défilement (de droite à gauche) */
