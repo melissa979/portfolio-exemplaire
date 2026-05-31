@@ -347,6 +347,18 @@ if (CONFIG.themeSwitch) {
             <h3>Personnalisation</h3>
             
             <div class="theme-section">
+                <label>Langue / Language</label>
+                <div class="mode-switch">
+                    <button class="mode-btn active" id="lang-en-btn" onclick="setLang('en')">
+                        🇬🇧 English
+                    </button>
+                    <button class="mode-btn" id="lang-fr-btn" onclick="setLang('fr')">
+                        🇫🇷 Français
+                    </button>
+                </div>
+            </div>
+
+            <div class="theme-section">
                 <label>Mode d'affichage</label>
                 <div class="mode-switch">
                     <button class="mode-btn active" data-mode="dark">
@@ -926,3 +938,193 @@ window.addEventListener('load', () => {
 });
 
 console.log('%c🔥 Portfolio Melissa - Ultra Premium JS Loaded! 🔥', 'color: #00ffff; font-size: 20px; font-weight: bold; text-shadow: 0 0 10px #00ffff;');
+
+// ========== COVER LETTER ==========
+function openCoverLetter() {
+    window.open('/image/Lettre_motivation_Melissa_SALHI.docx', '_blank');
+}
+
+// ========== SCROLL PROGRESS BAR ==========
+window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = (scrollTop / docHeight) * 100;
+    const bar = document.getElementById('scroll-progress');
+    if (bar) bar.style.width = progress + '%';
+});
+
+// ========== FILTRES PROJETS ==========
+const filterBtns = document.querySelectorAll('.filter-btn');
+const portBoxes = document.querySelectorAll('.port-box');
+
+filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const filter = btn.dataset.filter;
+
+        portBoxes.forEach(box => {
+            const tags = box.dataset.tags || '';
+            if (filter === 'all' || tags.includes(filter)) {
+                box.style.display = 'block';
+                box.style.animation = 'fadeInUp 0.5s ease both';
+            } else {
+                box.style.display = 'none';
+            }
+        });
+    });
+});
+
+// ========== EMAILJS FORMULAIRE ==========
+(function () {
+    emailjs.init('VOTRE_PUBLIC_KEY'); // ← Remplace par ta clé publique EmailJS
+})();
+
+const contactForm = document.getElementById('contact-form');
+const formStatus = document.getElementById('form-status');
+
+if (contactForm) {
+    contactForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const btn = document.getElementById('submit-btn');
+        const btnText = document.getElementById('btn-text');
+        const isEn = document.documentElement.lang !== 'fr';
+
+        btn.disabled = true;
+        btnText.textContent = isEn ? 'Sending...' : 'Envoi en cours...';
+
+        const templateParams = {
+            from_name: document.getElementById('from_name').value,
+            from_email: document.getElementById('from_email').value,
+            from_address: document.getElementById('from_address').value,
+            from_phone: document.getElementById('from_phone').value,
+            message: document.getElementById('message').value,
+        };
+
+        emailjs.send(
+            'VOTRE_SERVICE_ID',   // ← Remplace par ton Service ID EmailJS
+            'VOTRE_TEMPLATE_ID',  // ← Remplace par ton Template ID EmailJS
+            templateParams
+        ).then(() => {
+            formStatus.textContent = isEn ? '✅ Message sent successfully!' : '✅ Message envoyé avec succès !';
+            formStatus.style.color = '#00ff88';
+            contactForm.reset();
+            btnText.textContent = isEn ? 'Send Message' : 'Envoyer';
+            btn.disabled = false;
+        }).catch((err) => {
+            formStatus.textContent = isEn ? '❌ Error, please try again.' : '❌ Erreur, réessayez.';
+            formStatus.style.color = '#ff4444';
+            console.error('EmailJS error:', err);
+            btnText.textContent = isEn ? 'Send Message' : 'Envoyer';
+            btn.disabled = false;
+        });
+    });
+}
+
+// ========== COMPTEUR VISITEURS ==========
+const visitNum = document.getElementById('visit-num');
+if (visitNum) {
+    let count = parseInt(localStorage.getItem('visit-count') || '0') + 1;
+    localStorage.setItem('visit-count', count);
+    visitNum.textContent = count;
+}
+
+// ========== CURSEUR TRAIL ==========
+const trail = [];
+const trailCount = 12;
+for (let i = 0; i < trailCount; i++) {
+    const dot = document.createElement('div');
+    dot.style.cssText = `
+        position: fixed;
+        width: ${14 - i}px;
+        height: ${14 - i}px;
+        border-radius: 50%;
+        background: rgba(0, 255, 255, ${0.6 - i * 0.04});
+        pointer-events: none;
+        z-index: 99999;
+        transform: translate(-50%, -50%);
+        transition: transform 0.1s ease;
+        mix-blend-mode: screen;
+    `;
+    document.body.appendChild(dot);
+    trail.push({ el: dot, x: 0, y: 0 });
+}
+
+let mouseX = 0, mouseY = 0;
+window.addEventListener('mousemove', e => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+});
+
+function animateTrail() {
+    let x = mouseX, y = mouseY;
+    trail.forEach((dot, i) => {
+        dot.el.style.left = x + 'px';
+        dot.el.style.top = y + 'px';
+        const next = trail[i + 1] || { x: mouseX, y: mouseY };
+        dot.x += (x - dot.x) * 0.3;
+        dot.y += (y - dot.y) * 0.3;
+        x = dot.x;
+        y = dot.y;
+    });
+    requestAnimationFrame(animateTrail);
+}
+animateTrail();
+
+// ========== TRADUCTION FR / EN ==========
+let currentLang = 'en';
+
+function setLang(lang) {
+    currentLang = lang;
+    document.documentElement.lang = lang;
+
+    // Mettre à jour les boutons du panneau
+    const enBtn = document.getElementById('lang-en-btn');
+    const frBtn = document.getElementById('lang-fr-btn');
+    if (enBtn && frBtn) {
+        enBtn.classList.toggle('active', lang === 'en');
+        frBtn.classList.toggle('active', lang === 'fr');
+    }
+
+    // Traduire tous les éléments avec data-en / data-fr
+    document.querySelectorAll('[data-en][data-fr]').forEach(el => {
+        const text = lang === 'fr' ? el.getAttribute('data-fr') : el.getAttribute('data-en');
+        if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+            el.placeholder = text;
+        } else {
+            el.innerHTML = text;
+        }
+    });
+
+    // Traduire les placeholders
+    document.querySelectorAll('[data-fr-placeholder]').forEach(el => {
+        el.placeholder = lang === 'fr'
+            ? el.getAttribute('data-fr-placeholder')
+            : el.getAttribute('data-en-placeholder');
+    });
+
+    // Mettre à jour les liens nav
+    document.querySelectorAll('.navlist a[data-en]').forEach(a => {
+        a.textContent = lang === 'fr' ? a.getAttribute('data-fr') : a.getAttribute('data-en');
+    });
+
+    localStorage.setItem('portfolio-lang', lang);
+}
+
+// Charger la langue sauvegardée
+const savedLang = localStorage.getItem('portfolio-lang');
+if (savedLang) setLang(savedLang);
+
+// ========== ANIMATION TIMELINE AU SCROLL ==========
+const timelineItems = document.querySelectorAll('.timeline-item');
+const timelineObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('appear');
+            timelineObserver.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.2 });
+
+timelineItems.forEach(item => timelineObserver.observe(item));

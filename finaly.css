@@ -1283,10 +1283,15 @@ header:hover {
 
 .port-box {
     position: relative;
-    border-radius: 30px;
+    border-radius: 24px;
     overflow: hidden;
-    background: rgba(0, 255, 255, 0.03);
-    border: 2px solid rgba(0, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
     transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     transform-style: preserve-3d;
 }
@@ -1309,11 +1314,13 @@ header:hover {
 }
 
 .port-box:hover {
-    transform: translateY(-20px) rotateX(5deg);
-    box-shadow: 
-        0 30px 70px rgba(0, 255, 255, 0.5),
-        0 0 100px rgba(255, 0, 255, 0.3);
-    border-color: var(--main-color);
+    transform: translateY(-15px) rotateX(3deg);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(0, 255, 255, 0.3);
+    box-shadow:
+        0 30px 60px rgba(0, 0, 0, 0.5),
+        0 0 40px rgba(0, 255, 255, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .port-image {
@@ -1977,15 +1984,19 @@ footer a:hover {
 
 /* CARTE */
 .cert-card {
-    background: rgba(0, 255, 255, 0.03);
-    border: 1px solid rgba(0, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
     border-radius: 20px;
     padding: 2.5rem 2rem;
     display: flex;
     gap: 1.5rem;
     align-items: flex-start;
     transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    backdrop-filter: blur(15px);
     position: relative;
     overflow: hidden;
     animation: fadeInUp 0.8s ease-out both;
@@ -2006,11 +2017,12 @@ footer a:hover {
 
 .cert-card:hover {
     transform: translateY(-10px) scale(1.02);
-    border-color: var(--main-color);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(0, 255, 255, 0.25);
     box-shadow:
-        0 20px 60px rgba(0, 255, 255, 0.25),
-        0 0 40px rgba(0, 255, 255, 0.1),
-        inset 0 1px 0 rgba(0, 255, 255, 0.2);
+        0 20px 50px rgba(0, 0, 0, 0.5),
+        0 0 30px rgba(0, 255, 255, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 /* CARTE PLACEHOLDER */
@@ -2169,4 +2181,236 @@ footer a:hover {
     color: #000;
     transform: rotate(360deg);
     box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+}
+/* ========== BOUTON LANGUE FR/EN ========== */
+.lang-btn {
+    padding: 0.5rem 1.2rem;
+    background: transparent;
+    border: 2px solid var(--main-color);
+    border-radius: 50px;
+    color: var(--main-color);
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 2px;
+    transition: all 0.3s ease;
+    font-family: 'Orbitron', sans-serif;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+}
+.lang-btn:hover {
+    background: var(--main-color);
+    color: #000;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
+    transform: scale(1.05);
+}
+
+/* ========== SCROLL PROGRESS BAR ========== */
+.scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: 0%;
+    background: linear-gradient(90deg, #00ffff, #ff00ff, #ffff00);
+    z-index: 99999;
+    box-shadow: 0 0 8px #00ffff;
+    transition: width 0.1s linear;
+}
+
+/* ========== FILTRES PROJETS ========== */
+.fillter-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 4rem;
+}
+
+.filter-btn {
+    padding: 0.8rem 2rem;
+    font-size: 0.95rem;
+}
+
+.filter-btn.active {
+    background: var(--gradient-mix);
+    color: #000;
+    border-color: transparent;
+    box-shadow: var(--neon-glow);
+}
+
+/* ========== FORMULAIRE EMAILJS ========== */
+#form-status {
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-top: 1rem;
+    min-height: 24px;
+    letter-spacing: 1px;
+}
+
+/* ========== TIMELINE ========== */
+.timeline-section {
+    min-height: 100vh;
+    padding: 8rem 8%;
+    background: var(--bg-color);
+    position: relative;
+    overflow: hidden;
+}
+
+.timeline-section::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background:
+        radial-gradient(circle at 20% 50%, rgba(0, 255, 255, 0.06) 0%, transparent 50%),
+        radial-gradient(circle at 80% 50%, rgba(255, 0, 255, 0.06) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.timeline {
+    position: relative;
+    max-width: 1100px;
+    margin: 5rem auto 0;
+}
+
+/* Ligne centrale */
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, transparent, #00ffff, #ff00ff, #ffff00, transparent);
+    transform: translateX(-50%);
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+}
+
+.timeline-item {
+    display: flex;
+    justify-content: flex-end;
+    padding-right: calc(50% + 3rem);
+    margin-bottom: 4rem;
+    position: relative;
+    opacity: 0;
+    transform: translateX(-40px);
+    transition: all 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.timeline-item.right {
+    justify-content: flex-start;
+    padding-right: 0;
+    padding-left: calc(50% + 3rem);
+    transform: translateX(40px);
+}
+
+.timeline-item.appear {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Point central */
+.timeline-dot {
+    position: absolute;
+    left: 50%;
+    top: 24px;
+    transform: translateX(-50%);
+    width: 18px;
+    height: 18px;
+    background: var(--gradient-mix);
+    border-radius: 50%;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
+    z-index: 2;
+    animation: dotPulse 2s ease-in-out infinite;
+}
+
+@keyframes dotPulse {
+    0%, 100% { box-shadow: 0 0 10px rgba(0, 255, 255, 0.6); transform: translateX(-50%) scale(1); }
+    50% { box-shadow: 0 0 25px rgba(0, 255, 255, 1); transform: translateX(-50%) scale(1.2); }
+}
+
+/* Carte */
+.timeline-content {
+    background: rgba(0, 255, 255, 0.03);
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 2rem 2.5rem;
+    max-width: 420px;
+    width: 100%;
+    backdrop-filter: blur(15px);
+    transition: all 0.4s ease;
+    position: relative;
+}
+
+.timeline-content:hover {
+    border-color: var(--main-color);
+    box-shadow: 0 10px 40px rgba(0, 255, 255, 0.2);
+    transform: translateY(-5px);
+}
+
+.timeline-date {
+    font-size: 0.8rem;
+    color: var(--main-color);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 0.8rem;
+}
+
+.timeline-content h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.1rem;
+    color: var(--text-color);
+    margin-bottom: 0.8rem;
+    font-weight: 700;
+}
+
+.timeline-content p {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.7;
+    margin-bottom: 1rem;
+}
+
+.timeline-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.timeline-tags span {
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    background: rgba(0, 255, 255, 0.1);
+    border: 1px solid rgba(0, 255, 255, 0.35);
+    color: var(--main-color);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Responsive Timeline */
+@media (max-width: 768px) {
+    .timeline::before {
+        left: 20px;
+    }
+
+    .timeline-item,
+    .timeline-item.right {
+        justify-content: flex-start;
+        padding-left: 60px;
+        padding-right: 0;
+        transform: translateX(0);
+    }
+
+    .timeline-dot {
+        left: 20px;
+    }
+
+    .timeline-content {
+        max-width: 100%;
+    }
 }

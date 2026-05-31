@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="finaly.css">
     <link rel="stylesheet" href="cors.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 </head>
 
 <body>
@@ -20,24 +21,27 @@
             <li><a href="#Servises">Services</a></li>
             <li><a href="#Skills">Skills</a></li>
             <li><a href="#Portfolio">Portfolio</a></li>
-            <li><a href="#Certifications">Certifications</a></li>
-            <li><a href="#Technology-Watch">Technology-Watch</a></li>
-            <li><a href="#Contact">Contact</a></li>
+            <li><a href="#Certifications" data-en="Certifications" data-fr="Certifications">Certifications</a></li>
+            <li><a href="#Timeline" data-en="Timeline" data-fr="Parcours">Timeline</a></li>
+            <li><a href="#Technology-Watch" data-en="Technology-Watch" data-fr="Veille-Techno">Technology-Watch</a></li>
+            <li><a href="#Contact" data-en="Contact" data-fr="Contact">Contact</a></li>
         </ul>
         <div id="menu-icon" class="bx bx-menu"> </div>
     </header>
+    <div class="scroll-progress" id="scroll-progress"></div>
 
     <!---------------------------------home section-->
     <section id="Home" class="home">
         <div class="home-content">
-            <h1>Hi! I'm Melissa Salhi</h1>
-            <h3>Web Application Developer</h3>
+            <div class="open-to-work"><span data-en="Open to Work — Alternance Sept. 2026" data-fr="Disponible — Alternance Sept. 2026">Open to Work — Alternance Sept. 2026</span></div>
+            <h1 data-en="Hi! I'm Melissa Salhi" data-fr="Bonjour, je suis Melissa Salhi">Hi! I'm Melissa Salhi</h1>
+            <h3 data-en="Web Application Developer" data-fr="Développeuse Web & Logiciel">Web Application Developer</h3>
             <div class="tagline">
-                <p>
+                <p data-en="Passionate about <strong>web and application development</strong>, I design and build modern, responsive, and secure interfaces focused on code quality and user experience." data-fr="Passionnée par le <strong>développement web et logiciel</strong>, je conçois des interfaces modernes, responsives et sécurisées axées sur la qualité du code et l'expérience utilisateur.">
                     Passionate about <strong>web and application development</strong>, I design and build
                     modern, responsive, and secure interfaces focused on code quality and user experience.
                 </p>
-                <p>
+                <p data-en="Currently studying <strong>BTS SIO SLAM</strong> at INSTA Paris, I am looking for a <strong>work-study program (alternance) starting September 2026</strong> in web or application development." data-fr="Actuellement en <strong>BTS SIO SLAM</strong> à l'INSTA Paris, je recherche une <strong>alternance à partir de septembre 2026</strong> en développement web ou logiciel.">
                     Currently studying <strong>BTS SIO SLAM</strong> at INSTA Paris, I am looking for a
                     <strong>work-study program (alternance) starting September 2026</strong> in web or application development.
                 </p>
@@ -53,13 +57,13 @@
                     </div>
                 </div>
                 <div class="btn-box">
-                    <a href="/image/CV Français Professionnel Simple Noir et Blanc (11).pdf" download class="btn">
+                    <a href="/image/CV Français Professionnel Simple Noir et Blanc (11).pdf" download class="btn" data-en="Download CV" data-fr="Télécharger CV">
                         Download CV
                     </a>
-                    <a href="/image/CV Français Professionnel Simple Noir et Blanc (11).pdf" target="_blank" class="btn">
+                    <a href="/image/CV Français Professionnel Simple Noir et Blanc (11).pdf" target="_blank" class="btn" data-en="View CV" data-fr="Voir CV">
                         View CV
                     </a>
-                    <button onclick="openCoverLetter()" class="btn btn-cover">
+                    <button onclick="openCoverLetter()" class="btn btn-cover" data-en="Cover Letter" data-fr="Lettre de motivation">
                         <i class='bx bx-file'></i> Cover Letter
                     </button>
                 </div>
@@ -96,29 +100,29 @@
         </div>
 
         <div class="about-content">
-            <span>Let me introduce myself</span>
-            <h2>About Me</h2>
-            <h3>Developer & Problem Solver</h3>
-            <p>
+            <span data-en="Let me introduce myself" data-fr="Laissez-moi me présenter">Let me introduce myself</span>
+            <h2 data-en="About Me" data-fr="À propos">About Me</h2>
+            <h3 data-en="Developer & Problem Solver" data-fr="Développeuse & Résolveur de problèmes">Developer & Problem Solver</h3>
+            <p data-en="BTS SIO SLAM student at INSTA Paris, passionate about web and application development. I build full-stack solutions using <strong>PHP/Symfony</strong>, <strong>JavaScript</strong>, <strong>C#</strong> and modern frontend frameworks like <strong>Angular</strong>." data-fr="Étudiante en BTS SIO SLAM à l'INSTA Paris, passionnée par le développement web et logiciel. Je construis des solutions full-stack avec <strong>PHP/Symfony</strong>, <strong>JavaScript</strong>, <strong>C#</strong> et des frameworks frontend comme <strong>Angular</strong>.">
                 BTS SIO SLAM student at INSTA Paris, passionate about web and application development.
                 I build full-stack solutions using <strong>PHP/Symfony</strong>, <strong>JavaScript</strong>,
                 <strong>C#</strong> and modern frontend frameworks like <strong>Angular</strong>.
             </p>
-            <p>
+            <p data-en="I have solid experience in <strong>REST API integration</strong>, <strong>MySQL databases</strong>, <strong>UML modeling</strong>, and project tools like <strong>Git</strong>, <strong>Figma</strong> and <strong>Power BI</strong>. I also apply <strong>clean code</strong> practices and <strong>TDD</strong> basics." data-fr="J'ai une bonne expérience en <strong>intégration d'API REST</strong>, <strong>bases de données MySQL</strong>, <strong>modélisation UML</strong>, et outils comme <strong>Git</strong>, <strong>Figma</strong> et <strong>Power BI</strong>. J'applique aussi les pratiques de <strong>clean code</strong> et les bases du <strong>TDD</strong>.">
                 I have solid experience in <strong>REST API integration</strong>, <strong>MySQL databases</strong>,
                 <strong>UML modeling</strong>, and project tools like <strong>Git</strong>, <strong>Figma</strong>
                 and <strong>Power BI</strong>. I also apply <strong>clean code</strong> practices and <strong>TDD</strong> basics.
             </p>
-            <p>
+            <p data-en="I actively follow <strong>web application security</strong> trends (OWASP) and care about writing secure, maintainable code in every project I work on." data-fr="Je suis activement les tendances en <strong>sécurité des applications web</strong> (OWASP) et j'attache une grande importance à écrire du code sécurisé et maintenable.">
                 I actively follow <strong>web application security</strong> trends (OWASP) and care about
                 writing secure, maintainable code in every project I work on.
             </p>
-            <p class="highlight">
+            <p class="highlight" data-en="Motivated and eager to grow, I am looking for a <strong>work-study contract (alternance) starting September 2026</strong> — 3 days company / 2 days school — in web or software development." data-fr="Motivée et désireuse de progresser, je recherche un <strong>contrat d'alternance à partir de septembre 2026</strong> — 3 jours entreprise / 2 jours école — en développement web ou logiciel.">
                 Motivated and eager to grow, I am looking for a <strong>work-study contract (alternance)
                 starting September 2026</strong> — 3 days company / 2 days school — in web or software development.
             </p>
             <div class="btn-box">
-                <a href="https://www.linkedin.com/in/melissa-salhi-9a3229397" class="btn">LinkedIn →</a>
+                <a href="https://www.linkedin.com/in/melissa-salhi-9a3229397" class="btn" data-en="LinkedIn →" data-fr="LinkedIn →">LinkedIn →</a>
             </div>
         </div>
     </section>
@@ -126,8 +130,8 @@
     <!---------------------------------services section-->
     <section id="Servises" class="service">
         <div class="main-text">
-            <span>What I can do</span>
-            <h2>My Services</h2>
+            <span data-en="What I can do" data-fr="Ce que je sais faire">What I can do</span>
+            <h2 data-en="My Services" data-fr="Mes Services">My Services</h2>
         </div>
 
         <div class="section-services">
@@ -172,8 +176,8 @@
     <!-----------------------------skills section-->
     <section id="Skills" class="Skill">
         <div class="main-text">
-            <span>technical and professional</span>
-            <h2>My Skills</h2>
+            <span data-en="technical and professional" data-fr="technique et professionnelle">technical and professional</span>
+            <h2 data-en="My Skills" data-fr="Mes Compétences">My Skills</h2>
         </div>
 
         <div class="skill-main">
@@ -231,22 +235,25 @@
     <!---------------------------------portfolio section-->
     <section id="Portfolio" class="portfolio">
         <div class="main-text">
-            <span>What I have built</span>
-            <h2>Latest Projects</h2>
+            <span data-en="What I have built" data-fr="Ce que j'ai réalisé">What I have built</span>
+            <h2 data-en="Latest Projects" data-fr="Mes Projets">Latest Projects</h2>
         </div>
         <div class="container">
             <div class="fillter-buttons">
-                <button class="btn">All</button>
+                <button class="btn filter-btn active" data-filter="all" data-en="All" data-fr="Tous">All</button>
+                <button class="btn filter-btn" data-filter="html" data-en="HTML / CSS / JS" data-fr="HTML / CSS / JS">HTML / CSS / JS</button>
+                <button class="btn filter-btn" data-filter="php" data-en="PHP & BDD" data-fr="PHP & BDD">PHP & BDD</button>
+                <button class="btn filter-btn" data-filter="csharp" data-en="C#" data-fr="C#">C#</button>
             </div>
             <div class="portefolio-gallery">
 
-                <div class="port-box">
+                <div class="port-box" data-tags="all html php">
                     <div class="port-image">
                         <img src="image/website.jpg" alt="E-Commerce">
                     </div>
                     <div class="port-content">
-                        <h3>E-Commerce Website — INSTA</h3>
-                        <p>
+                        <h3 data-en="E-Commerce Website — INSTA" data-fr="Site E-Commerce — INSTA">E-Commerce Website — INSTA</h3>
+                        <p data-en="Full-stack e-commerce site built with HTML5, CSS3, JavaScript and PHP/Symfony. Includes REST API integration, MySQL database, user and order management system." data-fr="Site e-commerce full-stack avec HTML5, CSS3, JavaScript et PHP/Symfony. Intégration API REST, base MySQL, gestion des utilisateurs et commandes.">
                             Full-stack e-commerce site built with HTML5, CSS3, JavaScript and PHP/Symfony.
                             Includes REST API integration, MySQL database, user and order management system.
                         </p>
@@ -254,15 +261,13 @@
                     </div>
                 </div>
 
-               
-
-                <div class="port-box">
+                <div class="port-box" data-tags="all html">
                     <div class="port-image">
                         <img src="image/web app.jpeg" alt="To-Do App">
                     </div>
                     <div class="port-content">
-                        <h3>To-Do List Application</h3>
-                        <p>
+                        <h3 data-en="To-Do List Application" data-fr="Application To-Do List">To-Do List Application</h3>
+                        <p data-en="A task manager built with HTML, CSS and JavaScript. Users can add, complete and delete tasks, with data stored locally in the browser." data-fr="Un gestionnaire de tâches en HTML, CSS et JavaScript. Ajout, complétion et suppression de tâches, avec stockage local dans le navigateur.">
                             A task manager built with HTML, CSS and JavaScript.
                             Users can add, complete and delete tasks, with data stored locally in the browser.
                         </p>
@@ -270,13 +275,13 @@
                     </div>
                 </div>
 
-                <div class="port-box">
+                <div class="port-box" data-tags="all html">
                     <div class="port-image">
                         <img src="image/All.jpg" alt="Landing Page">
                     </div>
                     <div class="port-content">
-                        <h3>Landing Page Mini Portfolio</h3>
-                        <p>
+                        <h3 data-en="Landing Page Mini Portfolio" data-fr="Landing Page Mini Portfolio">Landing Page Mini Portfolio</h3>
+                        <p data-en="A modern and responsive landing page designed to introduce my portfolio. Built with HTML, CSS and JavaScript, focusing on clean design and user experience." data-fr="Une landing page moderne et responsive pour présenter mon portfolio. Réalisée en HTML, CSS et JavaScript, axée sur le design et l'UX.">
                             A modern and responsive landing page designed to introduce my portfolio.
                             Built with HTML, CSS and JavaScript, focusing on clean design and user experience.
                         </p>
@@ -291,8 +296,8 @@
     <!---------------------------------certifications section-->
     <section id="Certifications" class="certifications">
         <div class="main-text">
-            <span>My achievements</span>
-            <h2>Certifications</h2>
+            <span data-en="My achievements" data-fr="Mes réalisations">My achievements</span>
+            <h2 data-en="Certifications" data-fr="Certifications">Certifications</h2>
         </div>
 
         <div class="cert-grid">
@@ -402,21 +407,80 @@
         </div>
     </section>
 
+    <!---------------------------------Timeline section-->
+    <section id="Timeline" class="timeline-section">
+        <div class="main-text">
+            <span data-en="My journey" data-fr="Mon parcours">My journey</span>
+            <h2 data-en="Timeline" data-fr="Parcours">Timeline</h2>
+        </div>
+        <div class="timeline">
+            <div class="timeline-item left">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span class="timeline-date">2024 — <span data-en="Present" data-fr="Aujourd'hui">Present</span></span>
+                    <h3 data-en="BTS SIO SLAM — INSTA Paris" data-fr="BTS SIO SLAM — INSTA Paris">BTS SIO SLAM — INSTA Paris</h3>
+                    <p data-en="2-year diploma in IT, specialization in software solutions. Web dev, databases, networks, cybersecurity." data-fr="BTS en informatique, spécialité développement logiciel. Dev web, bases de données, réseaux, cybersécurité.">2-year diploma in IT, specialization in software solutions. Web dev, databases, networks, cybersecurity.</p>
+                    <div class="timeline-tags"><span>PHP/Symfony</span><span>JavaScript</span><span>MySQL</span><span>Angular</span></div>
+                </div>
+            </div>
+            <div class="timeline-item right">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span class="timeline-date">2026</span>
+                    <h3 data-en="E-Commerce Project — INSTA" data-fr="Projet E-Commerce — INSTA">E-Commerce Project — INSTA</h3>
+                    <p data-en="Full-stack e-commerce website with PHP/Symfony, REST API, MySQL and responsive frontend." data-fr="Site e-commerce full-stack avec PHP/Symfony, API REST, MySQL et frontend responsive.">Full-stack e-commerce website with PHP/Symfony, REST API, MySQL and responsive frontend.</p>
+                    <div class="timeline-tags"><span>PHP</span><span>MySQL</span><span>JS</span></div>
+                </div>
+            </div>
+            <div class="timeline-item left">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span class="timeline-date">2026</span>
+                    <h3 data-en="4 Anthropic Certifications" data-fr="4 Certifications Anthropic">4 Anthropic Certifications</h3>
+                    <p data-en="AI Fluency, Claude 101, Claude Code 101, Claude Cowork — certified by Anthropic in May 2026." data-fr="AI Fluency, Claude 101, Claude Code 101, Claude Cowork — certifiées par Anthropic en mai 2026.">AI Fluency, Claude 101, Claude Code 101, Claude Cowork — certified by Anthropic in May 2026.</p>
+                    <div class="timeline-tags"><span>AI</span><span>Claude</span><span>Anthropic</span></div>
+                </div>
+            </div>
+            <div class="timeline-item right">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span class="timeline-date">2025 — 2026</span>
+                    <h3 data-en="To-Do List App" data-fr="Application To-Do List">To-Do List App</h3>
+                    <p data-en="Task manager with dark mode, LocalStorage and animated UI in pure HTML/CSS/JS." data-fr="Gestionnaire de tâches avec mode nuit, LocalStorage et UI animée en HTML/CSS/JS pur.">Task manager with dark mode, LocalStorage and animated UI in pure HTML/CSS/JS.</p>
+                    <div class="timeline-tags"><span>HTML</span><span>CSS</span><span>JS</span></div>
+                </div>
+            </div>
+            <div class="timeline-item left">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span class="timeline-date">2021 — 2024</span>
+                    <h3 data-en="Baccalauréat — High School" data-fr="Baccalauréat — Lycée">Baccalauréat — Lycée</h3>
+                    <p data-en="General baccalaureate with mathematics and digital sciences options." data-fr="Baccalauréat général avec options mathématiques et sciences du numérique.">General baccalaureate with mathematics and digital sciences options.</p>
+                    <div class="timeline-tags"><span>Maths</span><span>NSI</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!---------------------------------contact section-->
     <section id="Contact" class="contant">
         <div class="main-text">
-            <span>ask me a question</span>
-            <h2>Contact Me!</h2>
+            <span data-en="ask me a question" data-fr="posez-moi une question">ask me a question</span>
+            <h2 data-en="Contact Me!" data-fr="Contactez-moi !">Contact Me!</h2>
         </div>
-        <form action="mailto:salhimelissa2007@gmail.com" method="post" enctype="text/plain">
-            <input type="text" placeholder="Your Name" required>
-            <input type="text" placeholder="Your Email" required>
-            <input type="text" name="Address" placeholder="Your Address">
-            <input type="number" name="Phone" placeholder="Phone Number">
-            <textarea name="message" id="" cols="30" placeholder="Your Message" required></textarea>
+        <form id="contact-form">
+            <input type="text" id="from_name" placeholder="Your Name" data-en-placeholder="Your Name" data-fr-placeholder="Votre Nom" required>
+            <input type="email" id="from_email" placeholder="Your Email" data-en-placeholder="Your Email" data-fr-placeholder="Votre Email" required>
+            <input type="text" id="from_address" placeholder="Your Address" data-en-placeholder="Your Address" data-fr-placeholder="Votre Adresse">
+            <input type="number" id="from_phone" placeholder="Phone Number" data-en-placeholder="Phone Number" data-fr-placeholder="Numéro de téléphone">
+            <textarea id="message" cols="30" placeholder="Your Message" data-en-placeholder="Your Message" data-fr-placeholder="Votre Message" required></textarea>
             <div class="btn-box formBtn">
-                <button type="submit" class="btn">Send Message</button>
+                <button type="submit" class="btn" id="submit-btn">
+                    <span id="btn-text" data-en="Send Message" data-fr="Envoyer">Send Message</span>
+                    <i class='bx bx-send'></i>
+                </button>
             </div>
+            <p id="form-status"></p>
         </form>
         <div class="contact-cards">
             <div class="contact-card">
@@ -432,7 +496,7 @@
 
     <!---------------------------------footer section-->
     <footer>
-        <p>Copyright © 2026 by Melissa SALHI || All Right Reserved</p>
+        <p>Copyright © 2026 by Melissa SALHI || All Right Reserved — <span id="visitor-count">👁 <span id="visit-num">...</span> <span data-en="visits" data-fr="visites">visits</span></span></p>
         <a href="#Home"><i class="bx bx-up-arrow-alt"></i></a>
     </footer>
 
