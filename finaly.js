@@ -941,7 +941,7 @@ console.log('%c🔥 Portfolio Melissa - Ultra Premium JS Loaded! 🔥', 'color: 
 
 // ========== COVER LETTER ==========
 function openCoverLetter() {
-    window.open('/image/Lettre_motivation_Melissa_SALHI.docx', '_blank');
+    window.open('/image/Lettre_motivation_Melissa_SALHI.pdf', '_blank');
 }
 
 // ========== SCROLL PROGRESS BAR ==========
@@ -967,9 +967,13 @@ filterBtns.forEach(btn => {
         portBoxes.forEach(box => {
             const tags = box.dataset.tags || '';
             if (filter === 'all' || tags.includes(filter)) {
-                box.style.display = 'block';
+                box.style.opacity = '1';
+                box.style.pointerEvents = 'auto';
                 box.style.animation = 'fadeInUp 0.5s ease both';
+                box.style.display = 'block';
             } else {
+                box.style.opacity = '0';
+                box.style.pointerEvents = 'none';
                 box.style.display = 'none';
             }
         });
@@ -978,7 +982,9 @@ filterBtns.forEach(btn => {
 
 // ========== EMAILJS FORMULAIRE ==========
 (function () {
-    emailjs.init('VOTRE_PUBLIC_KEY'); // ← Remplace par ta clé publique EmailJS
+    if (typeof emailjs !== 'undefined') {
+        emailjs.init('VOTRE_PUBLIC_KEY');
+    }
 })();
 
 const contactForm = document.getElementById('contact-form');
@@ -990,6 +996,12 @@ if (contactForm) {
         const btn = document.getElementById('submit-btn');
         const btnText = document.getElementById('btn-text');
         const isEn = document.documentElement.lang !== 'fr';
+
+        if (typeof emailjs === 'undefined') {
+            formStatus.textContent = isEn ? '❌ Email service not configured yet.' : '❌ Service email non configuré.';
+            formStatus.style.color = '#ff4444';
+            return;
+        }
 
         btn.disabled = true;
         btnText.textContent = isEn ? 'Sending...' : 'Envoi en cours...';
@@ -1003,8 +1015,8 @@ if (contactForm) {
         };
 
         emailjs.send(
-            'VOTRE_SERVICE_ID',   // ← Remplace par ton Service ID EmailJS
-            'VOTRE_TEMPLATE_ID',  // ← Remplace par ton Template ID EmailJS
+            'VOTRE_SERVICE_ID',
+            'VOTRE_TEMPLATE_ID',
             templateParams
         ).then(() => {
             formStatus.textContent = isEn ? '✅ Message sent successfully!' : '✅ Message envoyé avec succès !';
@@ -1046,15 +1058,22 @@ for (let i = 0; i < trailCount; i++) {
         transform: translate(-50%, -50%);
         transition: transform 0.1s ease;
         mix-blend-mode: screen;
+        opacity: 0;
     `;
     document.body.appendChild(dot);
-    trail.push({ el: dot, x: 0, y: 0 });
+    trail.push({ el: dot, x: -100, y: -100 });
 }
 
-let mouseX = 0, mouseY = 0;
+let mouseX = -100, mouseY = -100;
+let trailVisible = false;
+
 window.addEventListener('mousemove', e => {
     mouseX = e.clientX;
     mouseY = e.clientY;
+    if (!trailVisible) {
+        trailVisible = true;
+        trail.forEach(dot => dot.el.style.opacity = '1');
+    }
 });
 
 function animateTrail() {
@@ -1128,3 +1147,119 @@ const timelineObserver = new IntersectionObserver((entries) => {
 }, { threshold: 0.2 });
 
 timelineItems.forEach(item => timelineObserver.observe(item));
+
+// ========== MODAL PROJETS ==========
+document.querySelectorAll('.port-box').forEach(box => {
+    const overlay = box.querySelector('.port-overlay');
+    if (overlay) {
+        overlay.addEventListener('click', () => openModal(box));
+    }
+    box.addEventListener('click', (e) => {
+        if (!e.target.closest('a')) openModal(box);
+    });
+});
+
+function openModal(box) {
+    const lang = document.documentElement.lang === 'fr' ? 'fr' : 'en';
+    const title = lang === 'fr'
+        ? (box.dataset.modalTitleFr || box.dataset.modalTitle)
+        : box.dataset.modalTitle;
+    const desc = lang === 'fr'
+        ? (box.dataset.modalDescFr || box.dataset.modalDesc)
+        : box.dataset.modalDesc;
+
+    document.getElementById('modal-img').src = box.dataset.modalImg || '';
+    document.getElementById('modal-title').textContent = title || '';
+    document.getElementById('modal-desc').textContent = desc || '';
+    document.getElementById('modal-link').href = box.dataset.modalLink || '#';
+
+    const tagsContainer = document.getElementById('modal-tags');
+    tagsContainer.innerHTML = '';
+    (box.dataset.modalTags || '').split('·').forEach(tag => {
+        if (tag.trim()) {
+            const span = document.createElement('span');
+            span.textContent = tag.trim();
+            tagsContainer.appendChild(span);
+        }
+    });
+
+    document.getElementById('project-modal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+    document.getElementById('project-modal').classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+document.getElementById('project-modal').addEventListener('click', (e) => {
+    if (e.target === document.getElementById('project-modal')) closeModal();
+});
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeModal();
+});
+
+// ========== BOUTON PARTAGER ==========
+function sharePortfolio() {
+    const url = window.location.href;
+    const toast = document.getElementById('share-toast');
+    const lang = document.documentElement.lang === 'fr' ? 'fr' : 'en';
+
+    navigator.clipboard.writeText(url).then(() => {
+        toast.textContent = lang === 'fr' ? '✅ Lien copié !' : '✅ Link copied!';
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2500);
+    }).catch(() => {
+        const tmp = document.createElement('input');
+        tmp.value = url;
+        document.body.appendChild(tmp);
+        tmp.select();
+        document.execCommand('copy');
+        document.body.removeChild(tmp);
+        toast.textContent = lang === 'fr' ? '✅ Lien copié !' : '✅ Link copied!';
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2500);
+    });
+}
+
+// ========== LAZY LOADING IMAGES ==========
+document.querySelectorAll('img').forEach(img => {
+    if (!img.loading) img.loading = 'lazy';
+});
+
+// ========== ANIMATION BARRES SKILLS AU SCROLL ==========
+const skillBars = document.querySelectorAll('.bar span');
+
+skillBars.forEach(bar => {
+    // Lire la largeur définie en CSS et la stocker
+    const computedWidth = getComputedStyle(bar).getPropertyValue('width');
+    const parentWidth = bar.parentElement.offsetWidth;
+    const classes = ['HTML', 'css', 'javascript', 'php', 'c', 'mysql', 'powerbi'];
+    let targetWidth = '0%';
+
+    classes.forEach(cls => {
+        if (bar.classList.contains(cls)) {
+            const widths = {
+                'HTML': '70%', 'css': '80%', 'javascript': '50%',
+                'php': '50%', 'c': '50%', 'mysql': '70%', 'powerbi': '60%'
+            };
+            targetWidth = widths[cls] || '50%';
+        }
+    });
+
+    bar.style.setProperty('--target-width', targetWidth);
+});
+
+const skillObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            setTimeout(() => {
+                entry.target.classList.add('animated');
+            }, 200);
+            skillObserver.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.3 });
+
+skillBars.forEach(bar => skillObserver.observe(bar));
