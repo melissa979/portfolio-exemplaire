@@ -2,7 +2,8 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Mini Projet</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List — Melissa</title>
     <link rel="stylesheet" href="webapp.css">
 </head>
 <body>
@@ -11,23 +12,29 @@
 
 <div class="container">
     <h1>📝 To-Do List</h1>
-    <button class="toggle-theme" onclick="toggleTheme()">🌙 Mode nuit</button>
+    <button class="toggle-theme" onclick="toggleTheme()">🌙 Mode nuit</button>
 
     <div class="input-box">
         <input type="text" id="taskInput" placeholder="Ajouter une tâche...">
         <button onclick="addTask()">Ajouter</button>
     </div>
 
+    <div class="task-stats" id="task-stats"></div>
+
     <ul id="taskList"></ul>
+
+    <button class="btn-clear-all" id="btn-clear" onclick="clearAll()" style="display:none">
+        🗑️ Tout supprimer
+    </button>
 </div>
+
 <!-- PRESENTATION OVERLAY -->
 <div id="intro-overlay">
     <div class="intro-card">
         <h2 id="intro-title"></h2>
-
         <p id="intro-desc"></p>
         <p class="tech-title">Technologies utilisées</p>
-        <div class="badges" >
+        <div class="badges">
             <span>HTML</span>
             <span>CSS</span>
             <span>JavaScript</span>
@@ -37,12 +44,11 @@
 </div>
 
 <footer>
-  <p>&copy; 2026 TO-DO LIST | by Melissa SALHI & Melissa BESTANI
-  </p>
-  <div class="social"><a href="#">Instagram</a> | <a href="#">Facebook</a></div>
+    <p>&copy; 2026 TO-DO LIST | by Melissa SALHI &amp; Melissa BESTANI</p>
+    <div class="social">
+        <a href="#">Instagram</a> | <a href="#">Facebook</a>
+    </div>
 </footer>
-
-
 
 <script src="webapp.js"></script>
 </body>

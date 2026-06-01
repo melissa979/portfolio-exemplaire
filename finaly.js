@@ -1171,7 +1171,13 @@ function openModal(box) {
     document.getElementById('modal-img').src = box.dataset.modalImg || '';
     document.getElementById('modal-title').textContent = title || '';
     document.getElementById('modal-desc').textContent = desc || '';
-    document.getElementById('modal-link').href = box.dataset.modalLink || '#';
+    const modalLink = document.getElementById('modal-link');
+    modalLink.href = box.dataset.modalLink || '#';
+    modalLink.onclick = function(e) {
+        e.stopPropagation();
+        window.open(box.dataset.modalLink, '_blank');
+        return false;
+    };
 
     const tagsContainer = document.getElementById('modal-tags');
     tagsContainer.innerHTML = '';
@@ -1263,3 +1269,355 @@ const skillObserver = new IntersectionObserver((entries) => {
 }, { threshold: 0.3 });
 
 skillBars.forEach(bar => skillObserver.observe(bar));
+
+// ========== MODAL CERTIFICATION DIAPO ==========
+const certData = {
+    ai_fluency: {
+        title: "AI Fluency: Framework & Foundations",
+        issuer: "Anthropic",
+        date: "23 mai 2026",
+        tag: "AI · LLM · Anthropic",
+        pdf: "image/certificate-wh6i6gunby8m-1779460954 (1).pdf",
+        learnedTitle: "Comprendre l'IA et les LLMs",
+        description: "Cette certification couvre les fondements de l'intelligence artificielle et des grands modèles de langage (LLMs). Elle explore comment ces modèles fonctionnent, leurs capacités, leurs limites et comment les utiliser de manière responsable en contexte professionnel.",
+        skills: [
+            "✅ Comprendre le fonctionnement des LLMs (tokens, prompts, contexte)",
+            "✅ Identifier les cas d'usage appropriés de l'IA en entreprise",
+            "✅ Appliquer les principes d'utilisation responsable de l'IA",
+            "✅ Évaluer les capacités et limites des modèles IA",
+            "✅ Intégrer l'IA dans des workflows professionnels"
+        ],
+        quiz: [
+            {
+                question: "Qu'est-ce qu'un LLM (Large Language Model) ?",
+                options: [
+                    "Un modèle d'IA entraîné sur de grandes quantités de texte pour comprendre et générer du langage",
+                    "Un logiciel de traduction automatique",
+                    "Un algorithme de tri de données",
+                    "Un système de reconnaissance d'images"
+                ],
+                correct: 0
+            },
+            {
+                question: "Quelle est la bonne pratique lors de l'utilisation d'un LLM en contexte professionnel ?",
+                options: [
+                    "Toujours faire confiance à 100% aux réponses générées",
+                    "Vérifier et valider les informations importantes générées par l'IA",
+                    "Partager des données confidentielles sans restriction",
+                    "Utiliser l'IA uniquement pour des tâches créatives"
+                ],
+                correct: 1
+            },
+            {
+                question: "Comment appelle-t-on l'instruction donnée à un modèle IA pour obtenir une réponse ?",
+                options: ["Token", "Prompt", "Context", "Output"],
+                correct: 1
+            }
+        ]
+    },
+    cowork: {
+        title: "Introduction to Claude Cowork",
+        issuer: "Anthropic",
+        date: "22 mai 2026",
+        tag: "Claude · Cowork · Automation",
+        pdf: "image/certificate-r4tmfmrdi44m-1779574035.pdf",
+        learnedTitle: "Automatiser avec Claude Cowork",
+        description: "Claude Cowork est l'outil desktop d'Anthropic permettant d'automatiser la gestion de fichiers et de tâches. Cette certification couvre les workflows pratiques pour développeurs et non-développeurs, avec des cas d'usage concrets en entreprise.",
+        skills: [
+            "✅ Utiliser Claude Cowork pour automatiser des tâches répétitives",
+            "✅ Créer des workflows de gestion de fichiers intelligents",
+            "✅ Intégrer Cowork dans un environnement professionnel",
+            "✅ Comprendre les cas d'usage desktop de l'IA",
+            "✅ Optimiser sa productivité avec les outils Anthropic"
+        ],
+        quiz: [
+            {
+                question: "À quoi sert principalement Claude Cowork ?",
+                options: [
+                    "Générer des images avec l'IA",
+                    "Automatiser la gestion de fichiers et de tâches sur desktop",
+                    "Créer des sites web",
+                    "Analyser des bases de données SQL"
+                ],
+                correct: 1
+            },
+            {
+                question: "Quel type d'utilisateur peut bénéficier de Claude Cowork ?",
+                options: [
+                    "Uniquement les développeurs",
+                    "Uniquement les designers",
+                    "Développeurs et non-développeurs",
+                    "Uniquement les data scientists"
+                ],
+                correct: 2
+            },
+            {
+                question: "Quel est l'avantage principal d'automatiser des tâches avec Cowork ?",
+                options: [
+                    "Remplacer complètement les employés",
+                    "Gagner du temps sur les tâches répétitives pour se concentrer sur l'essentiel",
+                    "Accélérer uniquement la vitesse de connexion internet",
+                    "Générer du code automatiquement"
+                ],
+                correct: 1
+            }
+        ]
+    },
+    claude_101: {
+        title: "Claude 101",
+        issuer: "Anthropic",
+        date: "22 mai 2026",
+        tag: "Claude · Prompting · AI",
+        pdf: "image/certificate-9urr9cnxu4fw-1779463359 (1).pdf",
+        learnedTitle: "Maîtriser Claude AI efficacement",
+        description: "Cours fondamental sur l'utilisation efficace de Claude AI. Cette certification couvre la rédaction de prompts, la compréhension du comportement du modèle, et l'application de Claude dans des contextes professionnels et académiques réels.",
+        skills: [
+            "✅ Rédiger des prompts clairs, précis et efficaces",
+            "✅ Comprendre le comportement et les limites de Claude",
+            "✅ Appliquer Claude dans des projets académiques et professionnels",
+            "✅ Utiliser le prompt engineering pour améliorer les résultats",
+            "✅ Évaluer la qualité des réponses générées par Claude"
+        ],
+        quiz: [
+            {
+                question: "Qu'est-ce que le 'prompt engineering' ?",
+                options: [
+                    "La programmation de robots industriels",
+                    "L'art de formuler des instructions précises pour obtenir de meilleures réponses d'un modèle IA",
+                    "La création de bases de données",
+                    "Le développement de jeux vidéo"
+                ],
+                correct: 1
+            },
+            {
+                question: "Pour obtenir une meilleure réponse de Claude, il faut :",
+                options: [
+                    "Écrire des prompts le plus courts possibles",
+                    "Utiliser uniquement des questions fermées",
+                    "Donner un contexte précis, un rôle et des instructions claires",
+                    "Poser plusieurs questions en même temps sans structure"
+                ],
+                correct: 2
+            },
+            {
+                question: "Que signifie le terme 'hallucination' en IA ?",
+                options: [
+                    "Quand l'IA génère des images colorées",
+                    "Quand le modèle produit des informations incorrectes ou inventées présentées comme vraies",
+                    "Quand l'IA refuse de répondre",
+                    "Quand le modèle répond trop lentement"
+                ],
+                correct: 1
+            }
+        ]
+    },
+    claude_code: {
+        title: "Claude Code 101",
+        issuer: "Anthropic",
+        date: "22 mai 2026",
+        tag: "Claude Code · Dev · CLI",
+        pdf: "image/certificate-9db8apsiy6oq-1779462085.pdf",
+        learnedTitle: "Coder avec l'IA en terminal",
+        description: "Introduction à Claude Code, l'outil de codage agentique d'Anthropic. Cette certification couvre l'utilisation de l'assistance IA directement dans le terminal pour la génération de code, le débogage et les workflows de développement logiciel.",
+        skills: [
+            "✅ Utiliser Claude Code directement dans le terminal (CLI)",
+            "✅ Générer du code de qualité avec assistance IA",
+            "✅ Déboguer et corriger du code plus rapidement",
+            "✅ Intégrer Claude Code dans un workflow de développement",
+            "✅ Comprendre les capacités agentiques de l'IA pour le dev"
+        ],
+        quiz: [
+            {
+                question: "Claude Code est principalement utilisé via :",
+                options: [
+                    "Une application mobile",
+                    "Un site web",
+                    "Le terminal / ligne de commande (CLI)",
+                    "Un plugin navigateur"
+                ],
+                correct: 2
+            },
+            {
+                question: "Quel est l'avantage principal de Claude Code pour un développeur ?",
+                options: [
+                    "Remplacer complètement le développeur",
+                    "Accélérer le développement, le débogage et la documentation directement dans l'environnement de travail",
+                    "Créer des designs graphiques automatiquement",
+                    "Gérer les bases de données uniquement"
+                ],
+                correct: 1
+            },
+            {
+                question: "Qu'est-ce qu'une IA 'agentique' comme Claude Code ?",
+                options: [
+                    "Une IA qui ne peut répondre qu'à des questions simples",
+                    "Une IA capable d'exécuter des tâches complexes en plusieurs étapes de manière autonome",
+                    "Une IA qui génère uniquement des images",
+                    "Une IA qui remplace les moteurs de recherche"
+                ],
+                correct: 1
+            }
+        ]
+    }
+};
+
+let currentSlide = 1;
+let currentCert = null;
+let quizAnswers = {};
+let quizSubmitted = false;
+
+function openCertModal(certId) {
+    const cert = certData[certId];
+    if (!cert) return;
+    currentCert = certId;
+    currentSlide = 1;
+    quizAnswers = {};
+    quizSubmitted = false;
+
+    // Slide 1
+    document.getElementById('cert-title-modal').textContent = cert.title;
+    document.getElementById('cert-issuer-modal').textContent = cert.issuer;
+    document.getElementById('cert-date-modal').textContent = cert.date;
+    document.getElementById('cert-tag').textContent = cert.tag;
+    const pdfLink = document.getElementById('cert-pdf-link');
+    pdfLink.href = cert.pdf;
+    pdfLink.onclick = function(e) {
+        e.stopPropagation();
+        window.open(cert.pdf, '_blank');
+        return false;
+    };
+
+    // Slide 2
+    document.getElementById('cert-learned-title').textContent = cert.learnedTitle;
+    document.getElementById('cert-description').textContent = cert.description;
+    const skillsList = document.getElementById('cert-skills-list');
+    skillsList.innerHTML = '';
+    cert.skills.forEach(skill => {
+        const li = document.createElement('li');
+        li.textContent = skill;
+        skillsList.appendChild(li);
+    });
+
+    // Slide 3 - Quiz
+    renderQuiz(cert);
+
+    // Afficher slide 1
+    goToSlide(1);
+    document.getElementById('cert-modal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function renderQuiz(cert) {
+    const container = document.getElementById('quiz-container');
+    const result = document.getElementById('quiz-result');
+    result.style.display = 'none';
+    container.innerHTML = '';
+
+    cert.quiz.forEach((q, qi) => {
+        const block = document.createElement('div');
+        block.className = 'quiz-question-block';
+        block.innerHTML = `<p>Q${qi+1}. ${q.question}</p>
+            <div class="quiz-options">
+                ${q.options.map((opt, oi) => `
+                    <button class="quiz-option" data-q="${qi}" data-o="${oi}" onclick="selectAnswer(${qi}, ${oi})">
+                        ${opt}
+                    </button>
+                `).join('')}
+            </div>`;
+        container.appendChild(block);
+    });
+
+    const submitBtn = document.createElement('button');
+    submitBtn.className = 'btn quiz-submit-btn';
+    submitBtn.id = 'quiz-submit';
+    submitBtn.textContent = '✅ Valider mes réponses';
+    submitBtn.onclick = submitQuiz;
+    container.appendChild(submitBtn);
+}
+
+function selectAnswer(qi, oi) {
+    if (quizSubmitted) return;
+    quizAnswers[qi] = oi;
+    document.querySelectorAll(`.quiz-option[data-q="${qi}"]`).forEach(btn => {
+        btn.style.borderColor = '';
+        btn.style.background = '';
+    });
+    const selected = document.querySelector(`.quiz-option[data-q="${qi}"][data-o="${oi}"]`);
+    if (selected) {
+        selected.style.borderColor = 'rgba(0,255,255,0.6)';
+        selected.style.background = 'rgba(0,255,255,0.1)';
+    }
+}
+
+function submitQuiz() {
+    if (quizSubmitted) return;
+    const cert = certData[currentCert];
+    const total = cert.quiz.length;
+    let score = 0;
+
+    cert.quiz.forEach((q, qi) => {
+        const btns = document.querySelectorAll(`.quiz-option[data-q="${qi}"]`);
+        btns.forEach(btn => btn.disabled = true);
+        const correctBtn = document.querySelector(`.quiz-option[data-q="${qi}"][data-o="${q.correct}"]`);
+        if (correctBtn) correctBtn.classList.add('correct');
+        if (quizAnswers[qi] !== undefined && quizAnswers[qi] !== q.correct) {
+            const wrongBtn = document.querySelector(`.quiz-option[data-q="${qi}"][data-o="${quizAnswers[qi]}"]`);
+            if (wrongBtn) wrongBtn.classList.add('wrong');
+        }
+        if (quizAnswers[qi] === q.correct) score++;
+    });
+
+    quizSubmitted = true;
+    const submitBtn = document.getElementById('quiz-submit');
+    if (submitBtn) submitBtn.style.display = 'none';
+
+    setTimeout(() => {
+        const result = document.getElementById('quiz-result');
+        const pct = Math.round((score / total) * 100);
+        const msg = pct === 100 ? '🏆 Parfait ! Tu maîtrises ce sujet !' :
+                    pct >= 66 ? '👏 Bien joué ! Encore un petit effort !' :
+                    '📚 Relis le cours, tu peux faire mieux !';
+        result.innerHTML = `
+            <span class="quiz-score">${score}/${total}</span>
+            <p class="quiz-msg">${msg}</p>
+            <button class="btn quiz-retry-btn" onclick="retryQuiz()">🔄 Réessayer</button>
+        `;
+        result.style.display = 'block';
+    }, 800);
+}
+
+function retryQuiz() {
+    quizAnswers = {};
+    quizSubmitted = false;
+    renderQuiz(certData[currentCert]);
+}
+
+function closeCertModal() {
+    document.getElementById('cert-modal').classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+function goToSlide(n) {
+    document.querySelectorAll('.cert-slide').forEach(s => {
+        s.classList.remove('active', 'exit');
+    });
+    document.querySelectorAll('.cert-dot').forEach((d, i) => {
+        d.classList.toggle('active', i === n - 1);
+    });
+    document.getElementById(`slide-${n}`).classList.add('active');
+    currentSlide = n;
+    document.getElementById('prev-btn').disabled = n === 1;
+    document.getElementById('next-btn').disabled = n === 3;
+}
+
+function prevSlide() {
+    if (currentSlide > 1) goToSlide(currentSlide - 1);
+}
+
+function nextSlide() {
+    if (currentSlide < 3) goToSlide(currentSlide + 1);
+}
+
+document.getElementById('cert-modal').addEventListener('click', (e) => {
+    if (e.target === document.getElementById('cert-modal')) closeCertModal();
+});
