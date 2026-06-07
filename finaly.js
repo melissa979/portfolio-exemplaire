@@ -873,8 +873,18 @@ if (CONFIG.themeSwitch) {
 
 // ========== TYPING EFFECT ==========
 const typingText = document.querySelector('.home-content h3');
-if (typingText) {
-    const text = typingText.textContent;
+let typeWriterTimeout = null;
+
+function startTypeWriter() {
+    if (!typingText) return;
+    // Lire le texte source depuis data-en / data-fr selon la langue active
+    const lang = document.documentElement.lang === 'fr' ? 'fr' : 'en';
+    const text = (lang === 'fr' && typingText.getAttribute('data-fr'))
+        ? typingText.getAttribute('data-fr')
+        : (typingText.getAttribute('data-en') || typingText.getAttribute('data-text') || typingText.textContent);
+
+    // Annuler un éventuel typewriter en cours
+    if (typeWriterTimeout) clearTimeout(typeWriterTimeout);
     typingText.textContent = '';
     let i = 0;
 
@@ -882,13 +892,14 @@ if (typingText) {
         if (i < text.length) {
             typingText.textContent += text.charAt(i);
             i++;
-            setTimeout(typeWriter, 100);
+            typeWriterTimeout = setTimeout(typeWriter, 100);
         }
     }
 
-    // Démarrer après 1 seconde
-    setTimeout(typeWriter, 1000);
+    typeWriterTimeout = setTimeout(typeWriter, 500);
 }
+
+startTypeWriter();
 
 // ========== SMOOTH SCROLL ==========
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -939,9 +950,101 @@ window.addEventListener('load', () => {
 
 console.log('%c🔥 Portfolio Melissa - Ultra Premium JS Loaded! 🔥', 'color: #00ffff; font-size: 20px; font-weight: bold; text-shadow: 0 0 10px #00ffff;');
 
-// ========== COVER LETTER ==========
+// ========== COVER LETTER MODAL ==========
+(function createCoverLetterModal() {
+    const modal = document.createElement('div');
+    modal.id = 'cover-modal';
+    modal.style.cssText = `
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.85);
+        backdrop-filter: blur(8px);
+        z-index: 99999;
+        align-items: center;
+        justify-content: center;
+    `;
+
+    modal.innerHTML = `
+        <div style="
+            position: relative;
+            width: 90%;
+            max-width: 860px;
+            height: 90vh;
+            background: rgba(8,8,20,0.97);
+            border: 1px solid rgba(0,255,255,0.3);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 0 60px rgba(0,255,255,0.15);
+            display: flex;
+            flex-direction: column;
+        ">
+            <div style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 1rem 1.5rem;
+                border-bottom: 1px solid rgba(0,255,255,0.15);
+                flex-shrink: 0;
+            ">
+                <span style="color:#00ffff; font-family:'Orbitron',sans-serif; font-size:1rem; letter-spacing:1px;">
+                    📄 Lettre de Motivation
+                </span>
+                <div style="display:flex; gap:0.8rem; align-items:center;">
+                    <a href="/image/Lettre_motivation_Melissa_SALHI (1).pdf" download
+                       style="padding:0.5rem 1.2rem; background:rgba(0,255,255,0.1); border:1px solid rgba(0,255,255,0.4);
+                              color:#00ffff; border-radius:8px; text-decoration:none; font-size:0.85rem;
+                              transition:all 0.3s ease;"
+                       onmouseover="this.style.background='rgba(0,255,255,0.2)'"
+                       onmouseout="this.style.background='rgba(0,255,255,0.1)'">
+                        ⬇ Télécharger
+                    </a>
+                    <button onclick="closeCoverLetter()" style="
+                        width:36px; height:36px; border-radius:50%;
+                        background:rgba(255,255,255,0.05);
+                        border:1px solid rgba(255,255,255,0.15);
+                        color:#fff; font-size:1.2rem; cursor:pointer;
+                        display:flex; align-items:center; justify-content:center;
+                        transition:all 0.3s ease;
+                    " onmouseover="this.style.background='rgba(255,0,0,0.3)'"
+                       onmouseout="this.style.background='rgba(255,255,255,0.05)'">✕</button>
+                </div>
+            </div>
+            <iframe id="cover-iframe"
+                src="/image/Lettre_motivation_Melissa_SALHI (1).pdf"
+                style="flex:1; border:none; width:100%;"
+                type="application/pdf">
+            </iframe>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    // Fermer en cliquant sur le fond
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeCoverLetter();
+    });
+
+    // Fermer avec Echap
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.style.display === 'flex') closeCoverLetter();
+    });
+})();
+
 function openCoverLetter() {
-    window.open('/image/Lettre_motivation_Melissa_SALHI.pdf', '_blank');
+    const modal = document.getElementById('cover-modal');
+    if (modal) {
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function closeCoverLetter() {
+    const modal = document.getElementById('cover-modal');
+    if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
+    }
 }
 
 // ========== SCROLL PROGRESS BAR ==========
@@ -980,13 +1083,7 @@ filterBtns.forEach(btn => {
     });
 });
 
-// ========== EMAILJS FORMULAIRE ==========
-(function () {
-    if (typeof emailjs !== 'undefined') {
-        emailjs.init('VOTRE_PUBLIC_KEY');
-    }
-})();
-
+// ========== FORMSPREE FORMULAIRE ==========
 const contactForm = document.getElementById('contact-form');
 const formStatus = document.getElementById('form-status');
 
@@ -997,37 +1094,34 @@ if (contactForm) {
         const btnText = document.getElementById('btn-text');
         const isEn = document.documentElement.lang !== 'fr';
 
-        if (typeof emailjs === 'undefined') {
-            formStatus.textContent = isEn ? '❌ Email service not configured yet.' : '❌ Service email non configuré.';
-            formStatus.style.color = '#ff4444';
-            return;
-        }
-
         btn.disabled = true;
         btnText.textContent = isEn ? 'Sending...' : 'Envoi en cours...';
 
-        const templateParams = {
-            from_name: document.getElementById('from_name').value,
-            from_email: document.getElementById('from_email').value,
-            from_address: document.getElementById('from_address').value,
-            from_phone: document.getElementById('from_phone').value,
+        const data = {
+            name: document.getElementById('from_name').value,
+            email: document.getElementById('from_email').value,
+            address: document.getElementById('from_address').value,
+            phone: document.getElementById('from_phone').value,
             message: document.getElementById('message').value,
         };
 
-        emailjs.send(
-            'VOTRE_SERVICE_ID',
-            'VOTRE_TEMPLATE_ID',
-            templateParams
-        ).then(() => {
-            formStatus.textContent = isEn ? '✅ Message sent successfully!' : '✅ Message envoyé avec succès !';
-            formStatus.style.color = '#00ff88';
-            contactForm.reset();
-            btnText.textContent = isEn ? 'Send Message' : 'Envoyer';
-            btn.disabled = false;
-        }).catch((err) => {
+        fetch('https://formspree.io/f/xkoarwzn', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify(data)
+        }).then(res => {
+            if (res.ok) {
+                formStatus.textContent = isEn ? '✅ Message sent successfully!' : '✅ Message envoyé avec succès !';
+                formStatus.style.color = '#00ff88';
+                contactForm.reset();
+            } else {
+                formStatus.textContent = isEn ? '❌ Error, please try again.' : '❌ Erreur, réessayez.';
+                formStatus.style.color = '#ff4444';
+            }
+        }).catch(() => {
             formStatus.textContent = isEn ? '❌ Error, please try again.' : '❌ Erreur, réessayez.';
             formStatus.style.color = '#ff4444';
-            console.error('EmailJS error:', err);
+        }).finally(() => {
             btnText.textContent = isEn ? 'Send Message' : 'Envoyer';
             btn.disabled = false;
         });
@@ -1107,7 +1201,10 @@ function setLang(lang) {
     }
 
     // Traduire tous les éléments avec data-en / data-fr
+    // On exclut le h3 du typewriter pour éviter le doublon
+    const typingEl = document.querySelector('.home-content h3');
     document.querySelectorAll('[data-en][data-fr]').forEach(el => {
+        if (el === typingEl) return; // géré par le typewriter
         const text = lang === 'fr' ? el.getAttribute('data-fr') : el.getAttribute('data-en');
         if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
             el.placeholder = text;
@@ -1115,6 +1212,9 @@ function setLang(lang) {
             el.innerHTML = text;
         }
     });
+
+    // Relancer le typewriter avec la bonne langue
+    if (typeof startTypeWriter === 'function') startTypeWriter();
 
     // Traduire les placeholders
     document.querySelectorAll('[data-fr-placeholder]').forEach(el => {
@@ -1168,17 +1268,24 @@ function openModal(box) {
         ? (box.dataset.modalDescFr || box.dataset.modalDesc)
         : box.dataset.modalDesc;
 
-    document.getElementById('modal-img').src = box.dataset.modalImg || '';
     document.getElementById('modal-title').textContent = title || '';
     document.getElementById('modal-desc').textContent = desc || '';
-    const modalLink = document.getElementById('modal-link');
-    modalLink.href = box.dataset.modalLink || '#';
-    modalLink.onclick = function(e) {
-        e.stopPropagation();
-        window.open(box.dataset.modalLink, '_blank');
-        return false;
-    };
 
+    // Bouton View Project : caché si data-modal-hide-link="true"
+    const modalLink = document.getElementById('modal-link');
+    if (box.dataset.modalHideLink === 'true') {
+        modalLink.style.display = 'none';
+    } else {
+        modalLink.style.display = '';
+        modalLink.href = box.dataset.modalLink || '#';
+        modalLink.onclick = function(e) {
+            e.stopPropagation();
+            window.open(box.dataset.modalLink, '_blank');
+            return false;
+        };
+    }
+
+    // Tags
     const tagsContainer = document.getElementById('modal-tags');
     tagsContainer.innerHTML = '';
     (box.dataset.modalTags || '').split('·').forEach(tag => {
@@ -1188,6 +1295,58 @@ function openModal(box) {
             tagsContainer.appendChild(span);
         }
     });
+
+    // Galerie d'images
+    const gallery = box.dataset.modalGallery ? box.dataset.modalGallery.split('|') : [box.dataset.modalImg];
+    const modalImgEl = document.getElementById('modal-img');
+
+    // Nettoyer les miniatures existantes
+    const existingThumbs = document.getElementById('modal-thumbs');
+    if (existingThumbs) existingThumbs.remove();
+
+    // Afficher l'image principale
+    modalImgEl.src = gallery[0];
+    modalImgEl.style.display = 'block';
+
+    // Si galerie avec plusieurs images : créer les miniatures
+    if (gallery.length > 1) {
+        const thumbsRow = document.createElement('div');
+        thumbsRow.id = 'modal-thumbs';
+        thumbsRow.style.cssText = `
+            display: flex;
+            gap: 8px;
+            padding: 10px 4px 4px;
+            overflow-x: auto;
+            justify-content: center;
+            flex-wrap: wrap;
+        `;
+
+        gallery.forEach((src, i) => {
+            const thumb = document.createElement('img');
+            thumb.src = src;
+            thumb.style.cssText = `
+                width: 80px;
+                height: 56px;
+                object-fit: cover;
+                border-radius: 6px;
+                cursor: pointer;
+                border: 2px solid ${i === 0 ? '#00ffff' : 'rgba(255,255,255,0.2)'};
+                transition: border-color 0.3s, transform 0.2s;
+                flex-shrink: 0;
+            `;
+            thumb.addEventListener('mouseenter', () => { thumb.style.transform = 'scale(1.07)'; });
+            thumb.addEventListener('mouseleave', () => { thumb.style.transform = 'scale(1)'; });
+            thumb.addEventListener('click', () => {
+                modalImgEl.src = src;
+                thumbsRow.querySelectorAll('img').forEach(t => t.style.borderColor = 'rgba(255,255,255,0.2)');
+                thumb.style.borderColor = '#00ffff';
+            });
+            thumbsRow.appendChild(thumb);
+        });
+
+        // Insérer les miniatures juste après l'image principale
+        modalImgEl.insertAdjacentElement('afterend', thumbsRow);
+    }
 
     document.getElementById('project-modal').classList.add('active');
     document.body.style.overflow = 'hidden';
@@ -1498,9 +1657,6 @@ function openCertModal(certId) {
         skillsList.appendChild(li);
     });
 
-    // Slide 3 - Quiz
-    renderQuiz(cert);
-
     // Afficher slide 1
     goToSlide(1);
     document.getElementById('cert-modal').classList.add('active');
@@ -1607,7 +1763,7 @@ function goToSlide(n) {
     document.getElementById(`slide-${n}`).classList.add('active');
     currentSlide = n;
     document.getElementById('prev-btn').disabled = n === 1;
-    document.getElementById('next-btn').disabled = n === 3;
+    document.getElementById('next-btn').disabled = n === 2;
 }
 
 function prevSlide() {
@@ -1615,7 +1771,7 @@ function prevSlide() {
 }
 
 function nextSlide() {
-    if (currentSlide < 3) goToSlide(currentSlide + 1);
+    if (currentSlide < 2) goToSlide(currentSlide + 1);
 }
 
 document.getElementById('cert-modal').addEventListener('click', (e) => {
