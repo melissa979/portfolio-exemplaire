@@ -27,7 +27,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    scroll-behavior: smooth;
+    scroll-behavior: auto;
 }
 
 body {
@@ -3216,4 +3216,94 @@ footer a:hover {
     .cert-big-icon { font-size: 3.5rem; }
     .cert-modal-nav { padding: 1rem 1.5rem; }
     .cert-slide { padding: 1.5rem 1.5rem 0.5rem; }
+}
+/* ========== ACCESSIBILITÉ : REDUCED MOTION ========== */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    .home-img img,
+    .logo,
+    .home-content h1,
+    body::before,
+    body::after {
+        animation: none !important;
+    }
+}
+
+/* ========== CURSEUR CLIGNOTANT TYPEWRITER ========== */
+.typing-cursor::after {
+    content: '|';
+    display: inline-block;
+    color: var(--main-color);
+    margin-left: 2px;
+    animation: blink 0.7s step-end infinite;
+    font-weight: 300;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* ========== BADGE OPEN TO WORK ========== */
+.open-to-work {
+    display: inline-block;
+    background: linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(0, 255, 136, 0.05));
+    border: 1px solid rgba(0, 255, 136, 0.5);
+    border-radius: 50px;
+    padding: 0.5rem 1.5rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #00ff88;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    animation: openToWorkPulse 2s ease-in-out infinite;
+    position: relative;
+    overflow: hidden;
+}
+
+.open-to-work::before {
+    content: '● ';
+    font-size: 0.7rem;
+    animation: dotBlink 1.5s ease-in-out infinite;
+}
+
+@keyframes openToWorkPulse {
+    0%, 100% { box-shadow: 0 0 10px rgba(0, 255, 136, 0.2); }
+    50% { box-shadow: 0 0 25px rgba(0, 255, 136, 0.5); }
+}
+
+@keyframes dotBlink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+/* ========== FOCUS STYLES (Accessibilité clavier) ========== */
+a:focus-visible,
+button:focus-visible,
+[role="button"]:focus-visible,
+[tabindex]:focus-visible {
+    outline: 3px solid var(--main-color);
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+
+/* ========== FORM FIELD VALID STATE ========== */
+form input:valid:not(:placeholder-shown),
+form textarea:valid:not(:placeholder-shown) {
+    border-color: rgba(0, 255, 136, 0.4) !important;
+    box-shadow: 0 0 8px rgba(0, 255, 136, 0.15) !important;
+}
+
+/* ========== SCROLL PROGRESS BAR GLOW ========== */
+.scroll-progress {
+    box-shadow: 0 0 10px var(--main-color), 0 0 20px rgba(0, 255, 255, 0.3);
 }

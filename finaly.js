@@ -4,11 +4,15 @@
    ========================================== */
 
 // ========== CONFIGURATION ==========
+const isMobile = window.innerWidth <= 768;
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
 const CONFIG = {
-    particlesEnabled: true,
-    starsEnabled: true,
+    particlesEnabled: !prefersReducedMotion,
+    starsEnabled: !prefersReducedMotion && !isMobile,
     scrollAnimations: true,
     themeSwitch: true,
+    particleCount: isMobile ? 40 : 100,  // moins de particules sur mobile
 };
 
 // ========== MENU MOBILE ==========
@@ -16,9 +20,19 @@ const menuIcon = document.getElementById('menu-icon');
 const navlist = document.querySelector('.navlist');
 
 if (menuIcon && navlist) {
-    menuIcon.addEventListener('click', () => {
+    const toggleMenu = () => {
         navlist.classList.toggle('active');
         menuIcon.classList.toggle('bx-x'); // Change icon
+        const isOpen = navlist.classList.contains('active');
+        menuIcon.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    };
+    
+    menuIcon.addEventListener('click', toggleMenu);
+    menuIcon.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            toggleMenu();
+        }
     });
 
     // Fermer le menu quand on clique sur un lien
@@ -28,6 +42,14 @@ if (menuIcon && navlist) {
             menuIcon.classList.remove('bx-x');
         });
     });
+
+    // Fermer le menu si on passe en desktop
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 968) {
+            navlist.classList.remove('active');
+            menuIcon.classList.remove('bx-x');
+        }
+    }, { passive: true });
 }
 
 // ========== SCROLL ACTIF DANS LA NAVIGATION ==========
@@ -52,7 +74,7 @@ function activeMenu() {
     });
 }
 
-window.addEventListener('scroll', activeMenu);
+window.addEventListener('scroll', activeMenu, { passive: true });
 
 // ========== HEADER SCROLL EFFECT ==========
 const header = document.querySelector('header');
@@ -70,7 +92,7 @@ window.addEventListener('scroll', () => {
     }
 
     lastScroll = currentScroll;
-});
+}, { passive: true });
 
 // ========== PARTICULES INTERACTIVES ==========
 if (CONFIG.particlesEnabled) {
@@ -90,7 +112,7 @@ if (CONFIG.particlesEnabled) {
     canvas.height = window.innerHeight;
 
     const particlesArray = [];
-    const numberOfParticles = 100;
+    const numberOfParticles = CONFIG.particleCount;
     const mouse = {
         x: null,
         y: null,
@@ -886,13 +908,16 @@ function startTypeWriter() {
     // Annuler un éventuel typewriter en cours
     if (typeWriterTimeout) clearTimeout(typeWriterTimeout);
     typingText.textContent = '';
+    typingText.classList.add('typing-cursor'); // curseur clignotant
     let i = 0;
 
     function typeWriter() {
         if (i < text.length) {
             typingText.textContent += text.charAt(i);
             i++;
-            typeWriterTimeout = setTimeout(typeWriter, 100);
+            typeWriterTimeout = setTimeout(typeWriter, 80); // légèrement plus rapide
+        } else {
+            typingText.classList.remove('typing-cursor');
         }
     }
 
@@ -918,29 +943,35 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 // ========== COMPTEUR ANIMÉ ==========
 const counters = document.querySelectorAll('.info-about1 span, .info-about2 span, .info-about3 span');
 counters.forEach(counter => {
-    const target = parseInt(counter.textContent);
+    const rawText = counter.textContent.trim();
+    const hasSuffix = rawText.includes('+');
+    const target = parseInt(rawText);
+    if (isNaN(target)) return;
+
     let current = 0;
-    const increment = target / 50;
+    const duration = 1500; // ms
+    const steps = 60;
+    const increment = target / steps;
 
     const updateCounter = () => {
         if (current < target) {
-            current += increment;
-            counter.textContent = Math.floor(current) + '+';
-            setTimeout(updateCounter, 40);
+            current = Math.min(current + increment, target);
+            counter.textContent = Math.floor(current) + (hasSuffix ? '+' : '');
+            setTimeout(updateCounter, duration / steps);
         } else {
-            counter.textContent = target + '+';
+            counter.textContent = target + (hasSuffix ? '+' : '');
         }
     };
 
     // Démarrer quand visible
-    const observer = new IntersectionObserver((entries) => {
+    const counterObserver = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting) {
             updateCounter();
-            observer.disconnect();
+            counterObserver.disconnect();
         }
-    });
+    }, { threshold: 0.5 });
 
-    observer.observe(counter);
+    counterObserver.observe(counter);
 });
 
 // ========== LOADING SCREEN ==========
@@ -1054,7 +1085,7 @@ window.addEventListener('scroll', () => {
     const progress = (scrollTop / docHeight) * 100;
     const bar = document.getElementById('scroll-progress');
     if (bar) bar.style.width = progress + '%';
-});
+}, { passive: true });
 
 // ========== FILTRES PROJETS ==========
 const filterBtns = document.querySelectorAll('.filter-btn');
@@ -1088,11 +1119,42 @@ const contactForm = document.getElementById('contact-form');
 const formStatus = document.getElementById('form-status');
 
 if (contactForm) {
+    // Validation en temps réel
+    const nameField = document.getElementById('from_name');
+    const emailField = document.getElementById('from_email');
+    const messageField = document.getElementById('message');
+
+    function showFieldError(field, show) {
+        if (show) {
+            field.style.borderColor = '#ff4444';
+            field.style.boxShadow = '0 0 10px rgba(255,68,68,0.3)';
+        } else {
+            field.style.borderColor = '';
+            field.style.boxShadow = '';
+        }
+    }
+
+    [nameField, emailField, messageField].forEach(field => {
+        if (!field) return;
+        field.addEventListener('input', () => showFieldError(field, false));
+    });
+
     contactForm.addEventListener('submit', function (e) {
         e.preventDefault();
         const btn = document.getElementById('submit-btn');
         const btnText = document.getElementById('btn-text');
         const isEn = document.documentElement.lang !== 'fr';
+
+        // Validation côté client
+        let valid = true;
+        if (nameField && !nameField.value.trim()) { showFieldError(nameField, true); valid = false; }
+        if (emailField && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailField.value)) { showFieldError(emailField, true); valid = false; }
+        if (messageField && messageField.value.trim().length < 10) { showFieldError(messageField, true); valid = false; }
+        if (!valid) {
+            formStatus.textContent = isEn ? '⚠️ Please fill in all required fields correctly.' : '⚠️ Veuillez remplir tous les champs correctement.';
+            formStatus.style.color = '#ffaa00';
+            return;
+        }
 
         btn.disabled = true;
         btnText.textContent = isEn ? 'Sending...' : 'Envoi en cours...';
@@ -1155,12 +1217,13 @@ for (let i = 0; i < trailCount; i++) {
         opacity: 0;
     `;
     document.body.appendChild(dot);
-    trail.push({ el: dot, x: -100, y: -100 });
+    trail.push({ el: dot, x: -200, y: -200 });
 }
 
 let mouseX = -100, mouseY = -100;
 let trailVisible = false;
 
+if (!isMobile) {
 window.addEventListener('mousemove', e => {
     mouseX = e.clientX;
     mouseY = e.clientY;
@@ -1169,8 +1232,10 @@ window.addEventListener('mousemove', e => {
         trail.forEach(dot => dot.el.style.opacity = '1');
     }
 });
+}
 
 function animateTrail() {
+    if (isMobile) return; // skip trail on mobile
     let x = mouseX, y = mouseY;
     trail.forEach((dot, i) => {
         dot.el.style.left = x + 'px';
@@ -1774,6 +1839,25 @@ function nextSlide() {
     if (currentSlide < 2) goToSlide(currentSlide + 1);
 }
 
+// Fermer avec Escape
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        const certModal = document.getElementById('cert-modal');
+        const projectModal = document.getElementById('project-modal');
+        if (certModal && certModal.classList.contains('active')) closeCertModal();
+        if (projectModal && projectModal.classList.contains('active')) closeModal();
+    }
+});
+
 document.getElementById('cert-modal').addEventListener('click', (e) => {
     if (e.target === document.getElementById('cert-modal')) closeCertModal();
+});
+// ========== EMAIL (anti-obfuscation Cloudflare) ==========
+const contactMail = ['salhimelissa2007', 'gmail.com'].join('@');
+document.querySelectorAll('.js-email').forEach(el => {
+    el.textContent = contactMail;
+    el.style.cursor = 'pointer';
+    el.addEventListener('click', () => {
+        window.location.href = 'mailto:' + contactMail;
+    });
 });
