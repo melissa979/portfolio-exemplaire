@@ -30,6 +30,21 @@
     scroll-behavior: auto;
 }
 
+/* [RESPONSIVE] Rien ne doit dépasser horizontalement de l'écran */
+html,
+body {
+    max-width: 100%;
+    overflow-x: clip; /* "clip" bloque le défilement horizontal sans casser le scroll */
+}
+
+section {
+    overflow-x: clip; /* coupe les halos décoratifs de 500 à 800px */
+}
+
+img {
+    max-width: 100%;
+}
+
 body {
     font-family: 'Poppins', sans-serif;
     background: var(--bg-color);
@@ -203,20 +218,20 @@ header:hover {
 .navlist {
     display: flex;
     list-style: none;
-    gap: 3rem;
+    gap: 0.5rem; /* [RESPONSIVE] avant : 3rem, le menu faisait ~1900px de large */
 }
 
 .navlist a {
     color: var(--text-color);
     text-decoration: none;
     font-weight: 600;
-    font-size: 1.1rem;
+    font-size: 0.95rem;
     position: relative;
-    padding: 0.8rem 1.5rem;
+    padding: 0.6rem 0.9rem;
     transition: all 0.4s ease;
     overflow: hidden;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
 }
 
 .navlist a::before {
@@ -320,7 +335,7 @@ header:hover {
 
 .home-content h1 {
     font-family: 'Orbitron', sans-serif;
-    font-size: 4.5rem;
+    font-size: clamp(2rem, 6vw, 4.5rem); /* [RESPONSIVE] */
     font-weight: 900;
     line-height: 1.1;
     margin-bottom: 1.5rem;
@@ -699,14 +714,15 @@ header:hover {
 
 .img-about {
     position: relative;
-    width: 450px;
-    height: 550px;
+    width: min(450px, 90vw); /* [RESPONSIVE] avant : 450px fixe */
     perspective: 1000px;
 }
 
 .img-about img {
+    display: block;
     width: 100%;
-    height: 100%;
+    height: auto; /* [RESPONSIVE] avant : 550px fixe via le conteneur */
+    aspect-ratio: 450 / 550; /* [RESPONSIVE] garde les proportions de la photo */
     object-fit: cover;
     border-radius: 30px;
     box-shadow: 
@@ -820,7 +836,7 @@ header:hover {
 
 .about-content h2 {
     font-family: 'Orbitron', sans-serif;
-    font-size: 4rem;
+    font-size: clamp(2rem, 5vw, 4rem); /* [RESPONSIVE] */
     margin: 1.5rem 0;
     background: var(--gradient-mix);
     -webkit-background-clip: text;
@@ -929,7 +945,7 @@ header:hover {
 
 .main-text h2 {
     font-family: 'Orbitron', sans-serif;
-    font-size: 5rem;
+    font-size: clamp(2.2rem, 6vw, 5rem); /* [RESPONSIVE] */
     background: var(--gradient-mix);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -953,7 +969,7 @@ header:hover {
 
 .section-services {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 350px), 1fr)); /* [RESPONSIVE] */
     gap: 3rem;
 }
 
@@ -1426,7 +1442,7 @@ header:hover {
 
 .tech-watch-title {
     font-family: 'Orbitron', sans-serif;
-    font-size: 5rem;
+    font-size: clamp(2.2rem, 6vw, 5rem); /* [RESPONSIVE] */
     background: var(--gradient-mix);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -1629,6 +1645,8 @@ form textarea {
     align-items: center;
     gap: 1.5rem;
     padding: 2rem 3rem;
+    max-width: 100%; /* [RESPONSIVE] la carte ne dépasse jamais l'écran */
+    overflow-wrap: anywhere; /* [RESPONSIVE] l'adresse e-mail peut passer à la ligne */
     background: rgba(0, 255, 255, 0.05);
     border: 2px solid rgba(0, 255, 255, 0.3);
     border-radius: 20px;
@@ -1678,7 +1696,7 @@ form textarea {
 /* ========== FOOTER ULTRA ========== */
 footer {
     background: var(--second-bg-color);
-    padding: 2.5rem 8%;
+    padding: 2.5rem calc(8% + 80px) 2.5rem 8%; /* [RESPONSIVE] laisse la place au bouton thème flottant */
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -1744,7 +1762,47 @@ footer a:hover {
 }
 
 /* ========== RESPONSIVE ULTRA ========== */
+/* [RESPONSIVE] Le menu burger s'active dès 1400px (avant : 968px).
+   Les 9 liens ne tiennent pas sur un écran d'ordinateur portable. */
 @media (max-width: 1400px) {
+    header {
+        padding: 1.5rem 5%;
+    }
+
+    .navlist {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        max-height: calc(100vh - 80px);
+        overflow-y: auto;
+        background: rgba(0, 0, 0, 0.98);
+        backdrop-filter: blur(30px);
+        flex-direction: column;
+        padding: 1rem 0;
+        display: none;
+        border-top: 2px solid rgba(0, 255, 255, 0.3);
+    }
+
+    .navlist.active {
+        display: flex;
+    }
+
+    .navlist li {
+        width: 100%;
+        text-align: center;
+    }
+
+    .navlist a {
+        display: block;
+        padding: 1rem;
+        font-size: 1rem;
+    }
+
+    #menu-icon {
+        display: block;
+    }
+
     .home {
         padding: 8rem 5% 3rem;
     }
@@ -1784,10 +1842,23 @@ footer a:hover {
         grid-template-columns: 1fr;
     }
     
+    /* [RESPONSIVE] Les 3 badges passent SOUS la photo, sans chevaucher le texte */
+    .img-about {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+    }
+
+    .img-about img {
+        margin-bottom: 1rem;
+    }
+
     .info-about1, .info-about2, .info-about3 {
         position: relative;
         display: inline-block;
-        margin: 1rem;
+        margin: 0;
+        flex: 1 1 120px;
         left: 0 !important;
         right: 0 !important;
         bottom: auto !important;
@@ -1796,41 +1867,6 @@ footer a:hover {
 }
 
 @media (max-width: 968px) {
-    header {
-        padding: 1.5rem 5%;
-    }
-    
-    .navlist {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        width: 100%;
-        background: rgba(0, 0, 0, 0.98);
-        backdrop-filter: blur(30px);
-        flex-direction: column;
-        padding: 2rem 0;
-        display: none;
-        border-top: 2px solid rgba(0, 255, 255, 0.3);
-    }
-    
-    .navlist.active {
-        display: flex;
-    }
-    
-    .navlist li {
-        width: 100%;
-        text-align: center;
-    }
-    
-    .navlist a {
-        display: block;
-        padding: 1.5rem;
-    }
-    
-    #menu-icon {
-        display: block;
-    }
-    
     .home-content h1 {
         font-size: 3rem;
     }
@@ -1877,6 +1913,7 @@ footer a:hover {
         flex-direction: column;
         gap: 1.5rem;
         text-align: center;
+        padding: 2.5rem 5% 7rem; /* [RESPONSIVE] espace sous la flèche pour les boutons flottants */
     }
 }
 
@@ -1912,6 +1949,29 @@ footer a:hover {
         gap: 1.5rem;
     }
 }
+
+/* [RESPONSIVE] Très petits téléphones */
+@media (max-width: 400px) {
+    .home {
+        padding: 7rem 5% 3rem;
+        gap: 2rem;
+    }
+
+    .home-img img {
+        width: min(240px, 70vw);
+        height: min(240px, 70vw);
+    }
+
+    .info-about1, .info-about2, .info-about3 {
+        padding: 1rem;
+    }
+
+    .contact-card {
+        padding: 1.5rem;
+        gap: 1rem;
+    }
+}
+
 
 /* ========== ANIMATIONS AVANCÉES ========== */
 @keyframes neonPulse {
@@ -1981,7 +2041,7 @@ footer a:hover {
 /* GRILLE DE CARTES */
 .cert-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); /* [RESPONSIVE] */
     gap: 2.5rem;
     margin-top: 5rem;
     position: relative;
@@ -3306,4 +3366,150 @@ form textarea:valid:not(:placeholder-shown) {
 /* ========== SCROLL PROGRESS BAR GLOW ========== */
 .scroll-progress {
     box-shadow: 0 0 10px var(--main-color), 0 0 20px rgba(0, 255, 255, 0.3);
+}
+
+/* [ACCESSIBILITÉ] Texte lisible par les lecteurs d'écran mais invisible à l'écran */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ========== TABLEAU DE SYNTHÈSE E4 ========== */
+#Synthese.synthese-section {
+    padding: 8rem 8%;
+    background: var(--bg-color);
+    position: relative;
+}
+
+#Synthese .synth-intro {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 1rem;
+    margin: -3rem auto 2rem;
+    max-width: 700px;
+}
+
+#Synthese .synth-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border: 1px solid rgba(0, 255, 255, 0.3);
+    border-radius: 16px;
+    background: rgba(13, 13, 13, 0.85);
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.08);
+}
+
+#Synthese .synth-wrap:focus-visible {
+    outline: 2px solid var(--main-color);
+    outline-offset: 4px;
+}
+
+#Synthese .synth-table {
+    width: 100%;
+    min-width: 860px;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+    color: var(--text-color);
+}
+
+#Synthese .synth-table th,
+#Synthese .synth-table td {
+    padding: 1.1rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    text-align: center;
+    vertical-align: middle;
+}
+
+#Synthese .synth-table thead th {
+    background: rgba(0, 255, 255, 0.1);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+#Synthese .synth-table thead th:first-child,
+#Synthese .synth-table tbody th {
+    text-align: left;
+    min-width: 260px;
+}
+
+#Synthese .synth-table tbody th span {
+    display: block;
+}
+
+#Synthese .synth-title {
+    font-weight: 700;
+    color: #fff;
+    font-size: 1rem;
+}
+
+#Synthese .synth-period {
+    color: var(--main-color);
+    font-size: 0.8rem;
+    margin: 0.2rem 0 0.4rem;
+}
+
+#Synthese .synth-desc {
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 0.8rem;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+#Synthese .synth-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    color: #ff00ff;
+    text-decoration: none;
+}
+
+#Synthese .synth-link:hover {
+    text-decoration: underline;
+}
+
+#Synthese .synth-table td.ok {
+    color: #00ff88;
+    font-weight: 700;
+    font-size: 1.2rem;
+    text-shadow: 0 0 10px rgba(0, 255, 136, 0.6);
+}
+
+#Synthese .synth-table tbody tr:hover {
+    background: rgba(255, 0, 255, 0.05);
+}
+
+#Synthese .synth-btn {
+    justify-content: center;
+    margin-top: 2.5rem;
+}
+
+@media (max-width: 768px) {
+    #Synthese.synthese-section {
+        padding: 6rem 5%;
+    }
+
+    #Synthese .synth-intro {
+        margin-top: -2rem;
+        font-size: 0.9rem;
+    }
+}
+
+#Synthese .synth-table tr#Synthese .synth-group th {
+    background: rgba(255, 0, 255, 0.12);
+    color: #ff66ff;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: left;
+    padding: 0.7rem 1rem;
 }
